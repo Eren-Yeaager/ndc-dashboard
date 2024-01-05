@@ -125,7 +125,7 @@ Output:
 ```
 
 Output
-```
+```js
 [
   {
     account_id: "account.near",
@@ -149,7 +149,7 @@ Output
 ```
 
 Output
-```
+```js
 [
   {
     account_id: "account.near",
@@ -170,7 +170,7 @@ Output
 ```
 
 Output
-```
+```js
 [
   {
     account_id: "account.near",
@@ -193,7 +193,7 @@ Output
 ```
 
 Output
-```
+```js
 [
   {
     account_id: "account.near",

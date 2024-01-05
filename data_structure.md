@@ -37,16 +37,15 @@ Output
 ### Account history for a given Time period
 
 Input
-
 ```js
 {
-  date: "2024-01-04T19:43:01.198Z",
+  start_date: "2024-01-04T19:43:01.198Z",
+  end_date: "2024-01-04T19:43:01.198Z",
   type: "NEAR" // NEAR, Stable, Bridge
 }
 ```
 
 Output:
-
 ```js
 [
   {
@@ -68,7 +67,6 @@ data source:
 - https://api.pikespeak.ai/hot-wallets/fungible
 
 Input
-
 ```js
 {
   type: "Near" // Near, Stable, Ft
@@ -76,7 +74,6 @@ Input
 ```
 
 Output:
-
 ```js
 {
   "totalAmount": "16390635.927077794922735018557942",
@@ -95,17 +92,16 @@ Output:
 ### TOP N Active Accounts for a given Time period
 
 Input
-
 ```js
 {
-  date: "2024-01-04T19:43:01.198Z",
+  start_date: "2024-01-04T19:43:01.198Z",
+  end_date: "2025-01-04T19:43:01.198Z",
   type: "NEAR", // NEAR, Stable, Bridge
   size: 10 // to display TOP 10 accounts
 }
 ```
 
 Output:
-
 ```js
 [
   {
@@ -119,11 +115,93 @@ Output:
 
  ## Funded initiatives (DAO's)
 
- Input
+ ### Funded accoounts from given dao
 
+ Input
 ```js
 {
-  dao: "Dao Name",
-  sort_by: "date" // date, amount
+  account_id: "Dao Name",
 }
+```
+
+Output
+```
+[
+  {
+    account_id: "account.near",
+    type: "NEAR", // near, usdc.e
+    amount_received: 1000,
+  }
+]
+```
+
+ ## dApps activity
+
+ ### Funded accoounts from given dao
+
+ Input
+```js
+{
+  account_id: "DApp name",
+  start_date: "2024-01-04T19:43:01.198Z",
+  end_date: "2025-01-04T19:43:01.198Z",
+}
+```
+
+Output
+```
+[
+  {
+    account_id: "account.near",
+    type: "NEAR", // near, usdc.e
+    amount_received: 1000,
+  }
+]
+```
+
+ ### TOP proposers for a given dao
+
+ Input
+```js
+{
+  account_id: "dao name",
+  size: 10
+}
+```
+
+Output
+```
+[
+  {
+    account_id: "account.near",
+    proposals_count: 3
+  }
+]
+```
+
+ ## User statistics
+
+ ### TOP accounts that uses N Dapps for period
+
+ Input
+```js
+{
+  min_dapps_size: 3,
+  start_date: "2024-01-04T19:43:01.198Z",
+  end_date: "2025-01-04T19:43:01.198Z",
+}
+```
+
+Output
+```
+[
+  {
+    account_id: "account.near",
+    transactions: 100,
+    dapps: 10, // could be array of dapps obects
+    // dapps: [
+    //  { account_id: "dapp name", transactions: 10 }
+    // ]
+  }
+]
 ```

@@ -6,7 +6,7 @@ source
 - https://api.pikespeak.ai/network/last-week-total-tx
   
 Input
-```
+```js
 {
   period: "day" // day, week, month
 }

@@ -79,9 +79,9 @@ return (
         }}
       />
     </div>
-    <div className="d-flex w-100 flex-wrap gap-2">
-      <div className="section w-100">Graph1</div>
-      <div className="section w-100">Graph2</div>
+    <div className="d-flex flex-wrap justify-content-between gap-2">
+      <div className="section">Graph1</div>
+      <div className="section">Graph2</div>
     </div>
     <div className="section">Table</div>
   </Container>

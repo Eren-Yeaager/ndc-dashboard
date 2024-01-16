@@ -1,6 +1,7 @@
 return {
   NavBar: styled.div`
     position: relative;
+    width: 100%;
     padding: 1rem 3rem;
     display: flex;
     flex-direction: row;

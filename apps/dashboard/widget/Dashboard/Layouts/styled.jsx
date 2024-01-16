@@ -1,17 +1,25 @@
 return {
-  Wrapper: styled.div`
-    flex: 1,
-    display: flex,
-    "flex-direction": column,
-    "align-items": center,
-    width: "100%",
+  Theme: styled.div`
+    position: fixed;
+    inset: 107px 0px 0px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    overflow-y: scroll;
+    font-weight: 600;
+    font-family: "Avenir LT Pro", sans-serif;
+    font-style: normal;
+    background: #e8ecf0 !important;
+    ${(props) => props.font};
   `,
   Container: styled.div`
-    display: flex;
-    flex-direction: column;
     width: 100%;
     height: 100%;
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     .section {
       border-radius: 20px;
@@ -24,11 +32,15 @@ return {
       box-shadow: 0px 20px 40px 0px rgba(0, 0, 0, 0.05);
     }
   `,
-  Theme: styled.div`
-    font-weight: 600;
-    font-family: "Avenir LT Pro", sans-serif;
-    font-style: normal;
-    background: #e8ecf0 !important;
-    ${(props) => props.font};
+  Wrapper: styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    width: 90%;
+
+    @media screen and (max-width: 768px) {
+      width: 100%;
+    }
   `,
 };

@@ -1,3 +1,8 @@
+const { ndcAccounts } = VM.require(`/*__@replace:widgetPath__*/.Config`);
+const { API } = VM.require(`/*__@replace:widgetPath__*/.Api.pikespeak`);
+
+const Loading = () => <Widget src="flashui.near/widget/Loading" />;
+
 const Container = styled.div`
   position: relative;
   width: 100%;
@@ -53,6 +58,14 @@ const Circle = styled.div`
   background: ${(p) => p.color};
 `;
 
+const PERIODS = ["daily", "weekly", "monthly"];
+
+const [loading, setLoading] = useState(false);
+const [totalTx, setTotalTx] = useState(0);
+const [totalAccounts, setTotalAccounts] = useState(0);
+const [uniqueAccounts, setUniqueAccounts] = useState(0);
+const [period, setPeriod] = useState(PERIODS[0]);
+
 const Item = ({ value, text, color }) => (
   <div className="item">
     <div className="inner">{value}</div>
@@ -62,18 +75,45 @@ const Item = ({ value, text, color }) => (
   </div>
 );
 
+const fetchData = () => {
+  setLoading(true);
+
+  ndcAccounts.map((accountId) => {
+    API.get_total_tx(accountId).then((resp) => {
+      setTotalTx(totalTx + resp.body);
+    });
+    API.get_accounts(accountId).then((resp) => {
+      setTotalAccounts(resp.body.length);
+    });
+    API.get_unique_accounts_by_period(accountId).then((resp) => {
+      setUniqueAccounts(resp.body[period].count);
+    });
+  });
+  setLoading(false);
+};
+
+useEffect(() => fetchData(), []);
+
 return (
   <Container>
     <div className="section"></div>
     <div className="d-flex flex-wrap justify-content-between align-items-center gap-4">
       <Item
-        value="637.93M"
+        value={loading ? <Loading /> : totalTx}
         text="Total Number of Transactions"
         color="#A39ACD"
       />
-      <Item value="637.93M" text="Total Number of Accounts" color="#5398DD" />
+      <Item
+        value={loading ? <Loading /> : totalAccounts}
+        text="Total Number of Accounts"
+        color="#5398DD"
+      />
 
-      <Item value="637.93M" text="Today Unique Active Users" color="#E89DBB" />
+      <Item
+        value={loading ? <Loading /> : uniqueAccounts}
+        text="Today Unique Active Users"
+        color="#E89DBB"
+      />
     </div>
     <div className="d-flex w-100 flex-wrap gap-2">
       <div className="section w-100">Graph1</div>

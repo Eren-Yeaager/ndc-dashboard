@@ -1,46 +1,83 @@
-const { ndcAccounts } = VM.require(`/*__@replace:widgetPath__*/.Config`);
+const { ndcDAOs } = VM.require(`/*__@replace:widgetPath__*/.Config`);
 const { API } = VM.require(`/*__@replace:widgetPath__*/.Api.pikespeak`);
-
-const { home } = VM.require(`/*__@replace:widgetPath__*/.Pages.styled`);
-const Container = styled.div`${home}`;
+const { Container } = VM.require(`/*__@replace:widgetPath__*/.Pages.styled`);
 
 const PERIODS = ["daily", "weekly", "monthly"];
+const allDAOs = ["All DAOs", ...ndcDAOs];
 
 const [loading, setLoading] = useState(false);
 const [totalTx, setTotalTx] = useState(0);
 const [totalAccounts, setTotalAccounts] = useState(0);
 const [uniqueAccounts, setUniqueAccounts] = useState(0);
 const [period, setPeriod] = useState(PERIODS[0]);
+const [selectedDAOs, setSelectedDAOs] = useState(ndcDAOs);
+console.log(period);
 
 const fetchData = () => {
   setLoading(true);
+  let _totalTx = 0;
+  let _totalAccounts = 0;
+  let _uniqueAccounts = 0;
 
-  ndcAccounts.map((accountId) => {
+  selectedDAOs.map((accountId) => {
     API.get_total_tx(accountId).then((resp) => {
-      setTotalTx(totalTx + resp.body);
+      _totalTx += parseInt(resp.body);
+      setTotalTx(_totalTx);
     });
     API.get_accounts(accountId).then((resp) => {
-      setTotalAccounts(resp.body.length);
+      _totalAccounts += resp.body.length;
+      setTotalAccounts(_totalAccounts);
     });
     API.get_unique_accounts_by_period(accountId).then((resp) => {
-      setUniqueAccounts(resp.body[period].count);
+      _uniqueAccounts += parseInt(resp.body[period].count);
+      setUniqueAccounts(_uniqueAccounts);
     });
   });
   setLoading(false);
 };
 
-useEffect(() => fetchData(), []);
+useEffect(() => fetchData(), [selectedDAOs, period]);
 
 return (
   <Container>
-    <div className="section"></div>
+    <div className="section">
+      <div className="d-flex w-100 gap-5 justify-content-between">
+        <Widget
+          src={`near/widget/Select`}
+          props={{
+            noLabel: true,
+            placeholder: "Select a DAO",
+            options: allDAOs.map((name) => {
+              return { text: name, value: name };
+            }),
+            onChange: ({ value }) =>
+              setSelectedDAOs(value === allDAOs[0] ? ndcDAOs : [value]),
+          }}
+        />
+        <Widget
+          src={`near/widget/Select`}
+          props={{
+            noLabel: true,
+            value: { text: period, value: period },
+            placeholder: "Select a period",
+            options: PERIODS.map((name) => {
+              return { text: name, value: name };
+            }),
+            onChange: ({ value }) => setPeriod(value),
+          }}
+        />
+      </div>
+    </div>
     <div className="d-flex flex-wrap justify-content-between align-items-center gap-4">
-    <Widget src={`/*__@replace:widgetPath__*/.Components.MetricsDisplay.index`} props={{
-      totalTx,
-      totalAccounts,
-      uniqueAccounts,
-      loading
-    }}/>
+      <Widget
+        src={`/*__@replace:widgetPath__*/.Components.MetricsDisplay.index`}
+        props={{
+          totalTx,
+          totalAccounts,
+          uniqueAccounts,
+          loading,
+        }}
+      />
     </div>
     <div className="d-flex w-100 flex-wrap gap-2">
       <div className="section w-100">Graph1</div>

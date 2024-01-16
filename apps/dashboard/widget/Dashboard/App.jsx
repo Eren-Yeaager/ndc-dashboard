@@ -1,7 +1,4 @@
-const { AppLayout } = VM.require(`/*__@replace:widgetPath__*/.Layouts.App`);
 const { page, ...passProps } = props;
-
-if (!AppLayout) return <Widget src="flashui.near/widget/Loading" />;
 if (!page) page = "home";
 
 function Page() {
@@ -42,7 +39,8 @@ function Page() {
 }
 
 return (
-  <AppLayout page={page}>
-    <Page />
-  </AppLayout>
+  <Widget
+    src={`/*__@replace:widgetPath__*/.Layouts.App`}
+    props={{ page, children: <Page /> }}
+  />
 );

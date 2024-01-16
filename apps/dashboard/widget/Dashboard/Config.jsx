@@ -1,5 +1,5 @@
 return {
-  ndcAccounts: [
+  ndcDAOs: [
     "congress-hom-v1.ndc-gwg.near",
     "congress-coa-v1.ndc-gwg.near",
     "congress-tc-v1.ndc-gwg.near",

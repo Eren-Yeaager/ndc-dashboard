@@ -1,7 +1,7 @@
-const { circle } = VM.require(`/*__@replace:widgetPath__*/.Components.MetricsDisplay.styled`);
-const Circle = styled.div`${circle}`
-
 const { value, text, color } = props;
+const { Circle } = VM.require(
+  `/*__@replace:widgetPath__*/.Components.MetricsDisplay.styled`,
+);
 
 return (
   <div className="item">
@@ -10,4 +10,4 @@ return (
       <Circle color={color} /> <span>{text}</span>
     </div>
   </div>
-)
+);

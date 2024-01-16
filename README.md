@@ -1,4 +1,5 @@
 # NDC Dashboard
+Web link: https://near.org/ndcdev.near/widget/Dashboard.App
 
 ## Setup
 

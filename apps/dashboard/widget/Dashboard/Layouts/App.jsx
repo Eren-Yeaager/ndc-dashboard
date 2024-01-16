@@ -7,6 +7,7 @@ if (!fontCss) {
   return { AppLayout };
 }
 fontCss = fontCss.body;
+const { contentContainer,  container } = VM.require(`/*__@replace:widgetPath__*/.Layouts.styled`);
 
 const Theme = styled.div`
   font-weight: 500;
@@ -16,38 +17,14 @@ const Theme = styled.div`
   background: #e8ecf0 !important;
 `;
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  min-height: 100vh;
-
-  .section {
-    border-radius: 20px;
-    display: flex;
-    padding: 1rem 2rem;
-    justify-content: center;
-    align-items: center;
-    border-radius: 20px;
-    background: #f9fcff;
-    box-shadow: 0px 20px 40px 0px rgba(0, 0, 0, 0.05);
-  }
-`;
-
-const ContentContainer = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-`;
+const Container = styled.div`${container}`;
+const ContentContainer = styled.div`${contentContainer}`;
 
 function AppLayout({ page, children }) {
   return (
     <Theme>
       <Container>
-        <Widget src={`/*__@replace:widgetPath__*/.Components.NavBar`} />
+        <Widget src={`/*__@replace:widgetPath__*/.Components.NavBar.index`} />
         <ContentContainer>{children}</ContentContainer>
       </Container>
     </Theme>

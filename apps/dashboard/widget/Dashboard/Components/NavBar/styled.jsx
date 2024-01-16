@@ -1,7 +1,5 @@
-const { assets } = VM.require(`/*__@replace:widgetPath__*/.Config`);
-
-const Navbar = styled.div`
-  position: relative;
+return {
+  navBar: `position: relative;
   padding: 1rem 3rem;
   display: flex;
   flex-direction: row;
@@ -41,17 +39,5 @@ const Navbar = styled.div`
       width: 50px;
       height: 50px;
     }
-  }
-`;
-
-return (
-  <Navbar>
-    <a href={`//*__@replace:widgetPath__*/.App?page=home`}>
-      <div className="d-flex gap-3 align-items-center">
-        <img src={assets.logoWhite} />
-        <div className="header-text">NDC DASHBOARD</div>
-      </div>
-    </a>
-    <div className="color-text">FOR PEOPLE BY PEOPLE</div>
-  </Navbar>
-);
+  }`
+}

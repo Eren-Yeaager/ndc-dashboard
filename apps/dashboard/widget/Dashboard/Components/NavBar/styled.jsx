@@ -2,7 +2,7 @@ return {
   NavBar: styled.div`
     position: relative;
     width: 100%;
-    padding: 1rem 3rem;
+    padding: 1rem 4.5rem;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -30,12 +30,12 @@ return {
 
       @media screen and (max-width: 768px) {
         display: none;
-        margin: -10px;
       }
     }
 
     @media screen and (max-width: 768px) {
       padding: 1rem 2rem;
+      justify-content: center;
 
       img {
         width: 50px;

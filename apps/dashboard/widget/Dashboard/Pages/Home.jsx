@@ -41,44 +41,46 @@ useEffect(() => fetchData(), [selectedDAOs, period]);
 return (
   <Container>
     <div className="section">
-      <div className="d-flex w-100 gap-5 justify-content-between">
-        <Widget
-          src={`near/widget/Select`}
-          props={{
-            noLabel: true,
-            placeholder: "Select a DAO",
-            options: allDAOs.map((name) => {
-              return { text: name, value: name };
-            }),
-            onChange: ({ value }) =>
-              setSelectedDAOs(value === allDAOs[0] ? ndcDAOs : [value]),
-          }}
-        />
-        <Widget
-          src={`near/widget/Select`}
-          props={{
-            noLabel: true,
-            value: { text: period, value: period },
-            placeholder: "Select a period",
-            options: PERIODS.map((name) => {
-              return { text: name, value: name };
-            }),
-            onChange: ({ value }) => setPeriod(value),
-          }}
-        />
+      <div className="d-flex w-100 gap-3 justify-content-between">
+        <div className="select-dao">
+          <Widget
+            src={`near/widget/Select`}
+            props={{
+              noLabel: true,
+              placeholder: "Select a DAO",
+              options: allDAOs.map((name) => {
+                return { text: name, value: name };
+              }),
+              onChange: ({ value }) =>
+                setSelectedDAOs(value === allDAOs[0] ? ndcDAOs : [value]),
+            }}
+          />
+        </div>
+        <div className="select-period">
+          <Widget
+            src={`near/widget/Select`}
+            props={{
+              noLabel: true,
+              value: { text: period, value: period },
+              placeholder: "Select a period",
+              options: PERIODS.map((name) => {
+                return { text: name, value: name };
+              }),
+              onChange: ({ value }) => setPeriod(value),
+            }}
+          />
+        </div>
       </div>
     </div>
-    <div className="d-flex flex-wrap justify-content-between align-items-center gap-4">
-      <Widget
-        src={`/*__@replace:widgetPath__*/.Components.MetricsDisplay.index`}
-        props={{
-          totalTx,
-          totalAccounts,
-          uniqueAccounts,
-          loading,
-        }}
-      />
-    </div>
+    <Widget
+      src={`/*__@replace:widgetPath__*/.Components.MetricsDisplay.index`}
+      props={{
+        totalTx,
+        totalAccounts,
+        uniqueAccounts,
+        loading,
+      }}
+    />
     <div className="d-flex flex-wrap justify-content-between gap-2">
       <div className="section">Graph1</div>
       <div className="section">Graph2</div>

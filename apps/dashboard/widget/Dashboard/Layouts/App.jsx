@@ -15,7 +15,7 @@ return (
   <Theme font={font}>
     <Container>
       <Widget src={`/*__@replace:widgetPath__*/.Components.NavBar.index`} />
-      <Wrapper>{children}</Wrapper>
+      {children}
     </Container>
   </Theme>
 );

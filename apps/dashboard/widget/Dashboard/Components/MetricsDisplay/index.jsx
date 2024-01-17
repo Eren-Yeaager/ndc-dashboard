@@ -1,4 +1,7 @@
 const { totalTx, totalAccounts, uniqueAccounts, loading } = props;
+const { Items } = VM.require(
+  `/*__@replace:widgetPath__*/.Components.MetricsDisplay.styled`,
+);
 const Loading = () => <Widget src="flashui.near/widget/Loading" />;
 
 const Item = ({ value, text, color }) => {
@@ -11,7 +14,7 @@ const Item = ({ value, text, color }) => {
 };
 
 return (
-  <div className="d-flex flex-wrap justify-content-between align-items-center gap-4">
+  <Items>
     <Item
       value={loading ? <Loading /> : totalTx}
       text="Total Number of Transactions"
@@ -27,5 +30,5 @@ return (
       text="Today Unique Active Users"
       color="#E89DBB"
     />
-  </div>
+  </Items>
 );

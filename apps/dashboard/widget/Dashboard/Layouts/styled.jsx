@@ -1,7 +1,7 @@
 return {
   Theme: styled.div`
     position: fixed;
-    inset: 107px 0px 0px;
+    inset: 125px 0px 0px;
     width: 100%;
     height: 100%;
     display: flex;
@@ -22,6 +22,7 @@ return {
     align-items: center;
 
     .section {
+      width: 100%;
       border-radius: 20px;
       display: flex;
       padding: 1rem 2rem;
@@ -30,17 +31,10 @@ return {
       border-radius: 20px;
       background: #f9fcff;
       box-shadow: 0px 20px 40px 0px rgba(0, 0, 0, 0.05);
-    }
-  `,
-  Wrapper: styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem;
-    width: 90%;
 
-    @media screen and (max-width: 768px) {
-      width: 100%;
+      @media screen and (max-width: 768px) {
+        padding: 1rem;
+      }
     }
   `,
 };

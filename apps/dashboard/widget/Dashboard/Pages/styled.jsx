@@ -1,12 +1,15 @@
 return {
   Container: styled.div`
-    position: relative;
     width: 100%;
-    height: max-content;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
-    gap: 3rem;
+    align-items: center;
+    gap: 2rem;
+    padding: 3rem 4.5rem;
+
+    @media screen and (max-width: 768px) {
+      padding: 3rem 2rem;
+    }
 
     h3 {
       font-size: 2rem;
@@ -18,32 +21,36 @@ return {
       font-weight: 300;
     }
 
-    .item {
-      color: #fcf8ff;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      width: 400px;
-      height: 200px;
-      gap: 1rem;
-      border-radius: 30px;
-      background: #1e1d22;
-      box-shadow: 0px 30px 40px 0px rgba(0, 0, 0, 0.3);
+    div[role="combobox"] {
+      color: white !important;
+      border: 0;
       font-size: 20px;
-      font-weight: 750;
-      text-align: center;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 24px;
+      text-transform: capitalize;
+      letter-spacing: 0.12px;
+      border-radius: 10px;
+      background: #a39acd;
 
+      span {
+        color: white;
+        text-overflow: ellipsis;
+        display: block;
+        overflow: hidden;
+        text-wrap: nowrap;
+      }
+    }
+
+    .select-dao {
+      width: 50%;
       @media screen and (max-width: 768px) {
-        width: 100%;
+        width: 75%;
+        min-width: 150px;
       }
-
-      .inner {
-        border-radius: 20px;
-        background: rgba(255, 255, 255, 0.1);
-        padding: 10px 20px;
-        font-size: 60px;
-      }
+    }
+    .select-period {
+      width: 150px;
     }
   `,
 };

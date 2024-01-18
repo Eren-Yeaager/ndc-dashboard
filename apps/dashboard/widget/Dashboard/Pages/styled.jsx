@@ -21,27 +21,6 @@ return {
       font-weight: 300;
     }
 
-    div[role="combobox"] {
-      color: white !important;
-      border: 0;
-      font-size: 20px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 24px;
-      text-transform: capitalize;
-      letter-spacing: 0.12px;
-      border-radius: 10px;
-      background: #a39acd;
-
-      span {
-        color: white;
-        text-overflow: ellipsis;
-        display: block;
-        overflow: hidden;
-        text-wrap: nowrap;
-      }
-    }
-
     .select-dao {
       width: 50%;
       @media screen and (max-width: 768px) {

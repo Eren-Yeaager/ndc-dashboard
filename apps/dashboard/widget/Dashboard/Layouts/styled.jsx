@@ -1,7 +1,7 @@
 return {
   Theme: styled.div`
     position: fixed;
-    inset: 125px 0px 0px;
+    inset: 73px 0px 0px;
     width: 100%;
     height: 100%;
     display: flex;

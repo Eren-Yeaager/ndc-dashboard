@@ -3,23 +3,23 @@ const { API } = VM.require(`/*__@replace:widgetPath__*/.Api.pikespeak`);
 const { Container } = VM.require(`/*__@replace:widgetPath__*/.Pages.styled`);
 
 const PERIODS = ["daily", "weekly", "monthly"];
-const allDAOs = ["All DAOs", ...ndcDAOs];
+const defaultDAOOption = "All DAOs";
 
 const [loading, setLoading] = useState(false);
 const [totalTx, setTotalTx] = useState(0);
 const [totalAccounts, setTotalAccounts] = useState(0);
 const [uniqueAccounts, setUniqueAccounts] = useState(0);
 const [period, setPeriod] = useState(PERIODS[0]);
-const [selectedDAOs, setSelectedDAOs] = useState(ndcDAOs);
-console.log(period);
+const [selectedDAOs, setSelectedDAOs] = useState([]);
 
 const fetchData = () => {
   setLoading(true);
   let _totalTx = 0;
   let _totalAccounts = 0;
   let _uniqueAccounts = 0;
+  const daos = selectedDAOs.length ? selectedDAOs : ndcDAOs;
 
-  selectedDAOs.map((accountId) => {
+  daos.map((accountId) => {
     API.get_total_tx(accountId).then((resp) => {
       _totalTx += parseInt(resp.body);
       setTotalTx(_totalTx);
@@ -44,29 +44,36 @@ return (
       <div className="d-flex w-100 gap-3 justify-content-between">
         <div className="select-dao">
           <Widget
-            src={`near/widget/Select`}
+            src={`/*__@replace:widgetPath__*/.Components.Select.index`}
             props={{
-              noLabel: true,
-              placeholder: "Select a DAO",
-              options: allDAOs.map((name) => {
-                return { text: name, value: name };
-              }),
-              onChange: ({ value }) =>
-                setSelectedDAOs(value === allDAOs[0] ? ndcDAOs : [value]),
+              options: ndcDAOs,
+              defaultValue: defaultDAOOption,
+              isOpen: selectOpen,
+              multiple: true,
+              values: selectedDAOs,
+              onClear: () => setSelectedDAOs([]),
+              onChange: (value) => {
+                setSelectedDAOs(
+                  value === defaultDAOOption
+                    ? []
+                    : selectedDAOs.includes(value)
+                    ? selectedDAOs.filter(
+                        (dao) => dao !== value && dao !== defaultDAOOption,
+                      )
+                    : [...selectedDAOs, value],
+                );
+              },
             }}
           />
         </div>
         <div className="select-period">
           <Widget
-            src={`near/widget/Select`}
+            src={`/*__@replace:widgetPath__*/.Components.Select.index`}
             props={{
-              noLabel: true,
-              value: { text: period, value: period },
-              placeholder: "Select a period",
-              options: PERIODS.map((name) => {
-                return { text: name, value: name };
-              }),
-              onChange: ({ value }) => setPeriod(value),
+              options: PERIODS,
+              isOpen: selectOpen,
+              values: period,
+              onChange: setPeriod,
             }}
           />
         </div>

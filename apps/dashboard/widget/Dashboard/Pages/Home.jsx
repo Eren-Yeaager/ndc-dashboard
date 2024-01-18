@@ -91,8 +91,10 @@ return (
       }}
     />
     <div className="d-flex flex-wrap justify-content-between gap-2">
-      <div className="section">Graph1</div>
-      <div className="section">Graph2</div>
+      <Widget src={`/*__@replace:widgetPath__*/.Components.Chart.index`} 
+              props={{ title: 'DAILY NUMBER OF TRANSACTIONS' }}/>
+      <Widget src={`/*__@replace:widgetPath__*/.Components.Chart.index`}
+              props={{ title: 'UNIQUE ACTIVE USERS' }}/>
     </div>
     <div className="section py-5">
       <Widget

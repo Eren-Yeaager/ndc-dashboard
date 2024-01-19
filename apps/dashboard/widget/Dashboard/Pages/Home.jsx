@@ -1,6 +1,6 @@
 const { ndcDAOs } = VM.require(`/*__@replace:widgetPath__*/.Config`);
 const { API } = VM.require(`/*__@replace:widgetPath__*/.Api.pikespeak`);
-const { Container } = VM.require(`/*__@replace:widgetPath__*/.Pages.styled`);
+const { Container, ChartContainer } = VM.require(`/*__@replace:widgetPath__*/.Pages.styled`);
 
 const PERIODS = ["daily", "weekly", "monthly"];
 const defaultDAOOption = "All DAOs";
@@ -90,12 +90,12 @@ return (
         loading,
       }}
     />
-    <div className="d-flex flex-wrap justify-content-between gap-2">
+    <ChartContainer>
       <Widget src={`/*__@replace:widgetPath__*/.Components.Chart.index`} 
               props={{ title: 'DAILY NUMBER OF TRANSACTIONS' }}/>
       <Widget src={`/*__@replace:widgetPath__*/.Components.Chart.index`}
               props={{ title: 'UNIQUE ACTIVE USERS' }}/>
-    </div>
+     </ ChartContainer>
     <div className="section py-5">
       <Widget
         src={`/*__@replace:widgetPath__*/.Components.Table.index`}

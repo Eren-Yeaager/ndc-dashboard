@@ -51,6 +51,7 @@ return (
               isOpen: selectOpen,
               multiple: true,
               values: selectedDAOs,
+              containerClass: "selected-container",
               onClear: () => setSelectedDAOs([]),
               onChange: (value) => {
                 setSelectedDAOs(
@@ -74,6 +75,7 @@ return (
               isOpen: selectOpen,
               values: period,
               onChange: setPeriod,
+              containerClass: "selected-container",
             }}
           />
         </div>
@@ -92,6 +94,11 @@ return (
       <div className="section">Graph1</div>
       <div className="section">Graph2</div>
     </div>
-    <div className="section">Table</div>
+    <div className="section py-5">
+      <Widget
+        src={`/*__@replace:widgetPath__*/.Components.Table.index`}
+        props={{ ndcDAOs }}
+      />
+    </div>
   </Container>
 );

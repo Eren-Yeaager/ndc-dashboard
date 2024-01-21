@@ -1,8 +1,16 @@
 const { Select, Check } = VM.require(
   `/*__@replace:widgetPath__*/.Components.Select.styled`,
 );
-const { values, multiple, options, onChange, defaultValue, isOpen, onClear } =
-  props;
+const {
+  values,
+  multiple,
+  options,
+  onChange,
+  defaultValue,
+  isOpen,
+  onClear,
+  containerClass,
+} = props;
 const [open, setOpen] = useState(isOpen);
 const selectOptions = defaultValue ? [defaultValue, ...options] : options;
 
@@ -16,7 +24,7 @@ const title = () => {
 
 return (
   <Select onClick={() => setOpen(!open)}>
-    <div className="selected-container">
+    <div className={containerClass}>
       <div className="selected">{title()}</div>
       <div className="d-flex gap-2">
         {multiple && values.length > 0 && (

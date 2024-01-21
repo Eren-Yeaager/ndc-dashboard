@@ -25,7 +25,7 @@ return {
       width: 100%;
       border-radius: 20px;
       display: flex;
-      padding: 1rem 2rem;
+      padding: 1rem 3rem;
       justify-content: center;
       align-items: center;
       border-radius: 20px;

@@ -1,6 +1,9 @@
 const { Select, Check } = VM.require(
   `/*__@replace:widgetPath__*/.Components.Select.styled`,
 );
+
+if (!Select || !Check) return <Widget src="flashui.near/widget/Loading" />;
+
 const {
   values,
   multiple,

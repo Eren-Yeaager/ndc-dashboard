@@ -2,6 +2,8 @@ const { totalTx, totalAccounts, uniqueAccounts, loading } = props;
 const { Items } = VM.require(
   `/*__@replace:widgetPath__*/.Components.MetricsDisplay.styled`,
 );
+
+if (!Items) return <Widget src="flashui.near/widget/Loading" />;
 const Loading = () => <Widget src="flashui.near/widget/Loading" />;
 
 const Item = ({ value, text, color }) => {

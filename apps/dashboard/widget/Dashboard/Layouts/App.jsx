@@ -3,8 +3,6 @@ const { Wrapper, Container, Theme } = VM.require(
   `/*__@replace:widgetPath__*/.Layouts.styled`,
 );
 
-const Loading = () => <Widget src="flashui.near/widget/Loading" />;
-
 const [font, setFont] = useState("");
 
 asyncFetch("https://fonts.cdnfonts.com/css/avenir-lt-pro").then((resp) =>

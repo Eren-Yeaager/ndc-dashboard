@@ -3,6 +3,8 @@ const { NavBar } = VM.require(
   `/*__@replace:widgetPath__*/.Components.NavBar.styled`,
 );
 
+if (!assets || !NavBar) return <Widget src="flashui.near/widget/Loading" />;
+
 return (
   <NavBar>
     <a href={`//*__@replace:widgetPath__*/.App?page=home`}>

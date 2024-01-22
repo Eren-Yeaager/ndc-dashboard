@@ -2,6 +2,9 @@ const { FilterItem, SubFilterItem, FilterContainer } = VM.require(
   `/*__@replace:widgetPath__*/.Components.Table.Filters.styled`,
 );
 
+if (!FilterItem || !SubFilterItem || !FilterContainer)
+  return <Widget src="flashui.near/widget/Loading" />;
+
 const { ndcDAOs } = props;
 
 const defaultDAOOption = "All";

@@ -32,4 +32,14 @@ return {
       width: 150px;
     }
   `,
+
+  ChartContainer: styled.div`
+    display: flex;
+    gap: 3rem;
+    justify-content: space-between;
+
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+    }
+  `
 };

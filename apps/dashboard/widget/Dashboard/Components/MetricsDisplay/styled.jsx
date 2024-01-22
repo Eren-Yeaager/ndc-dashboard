@@ -25,7 +25,7 @@ return {
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      width: 400px;
+      width: 100%;
       height: 200px;
       gap: 1rem;
       border-radius: 30px;

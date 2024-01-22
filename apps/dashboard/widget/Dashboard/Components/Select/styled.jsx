@@ -14,6 +14,10 @@ return {
       align-items: center;
       padding: 5px 25px;
 
+      &.black {
+        background: #000;
+      }
+
       .selected {
         border: 0;
         font-size: 20px;

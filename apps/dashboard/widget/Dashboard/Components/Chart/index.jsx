@@ -1,7 +1,11 @@
-const { Container } = VM.require(`/*__@replace:widgetPath__*/.Components.Chart.styled`);
+const { Container } = VM.require(
+  `/*__@replace:widgetPath__*/.Components.Chart.styled`,
+);
 
 const chartData = props.chartData ?? {
-  labels: props.data.labels.map((item) => new Date(item).toISOString().split('T')[0]),
+  labels: props.data.labels.map(
+    (item) => new Date(item).toISOString().split("T")[0],
+  ),
   datasets: [
     {
       backgroundColor: gradient,
@@ -45,7 +49,7 @@ const code = `
                   datasets: [{
                         data: data.datasets[0].data,
                         backgroundColor: gradient,
-                        borderWidth: 1
+                        borderWidth: 0
                     }]      
             },
             type: "bar",
@@ -101,15 +105,14 @@ const code = `
 const args = {
   title: props.title,
   component: (
-    <iframe
-      iframeResizer
-      srcDoc={code}
-      message={{ data: chartData }}
-    />
+    <iframe iframeResizer srcDoc={code} message={{ data: chartData }} />
   ),
 };
 return (
-  <div className="section">
-    <Widget src="/*__@replace:widgetPath__*/.Components.Chart.container" props={args} />
+  <div className="section py-5">
+    <Widget
+      src="/*__@replace:widgetPath__*/.Components.Chart.container"
+      props={args}
+    />
   </div>
 );

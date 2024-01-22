@@ -1,19 +1,21 @@
 const { ndcDAOs } = VM.require(`/*__@replace:widgetPath__*/.Config`);
 const { API } = VM.require(`/*__@replace:widgetPath__*/.Api.pikespeak`);
-const { Container, ChartContainer } = VM.require(`/*__@replace:widgetPath__*/.Pages.styled`);
+const { Container, ChartContainer } = VM.require(
+  `/*__@replace:widgetPath__*/.Pages.styled`,
+);
 
 const PERIODS = ["daily", "weekly", "monthly"];
 const defaultDAOOption = "All DAOs";
 
 const dailyTotal = {
   labels: [],
-  data: []
-}
+  data: [],
+};
 
 const dailyTotalUsers = {
   labels: [],
-  data: []
-}
+  data: [],
+};
 
 const [loading, setLoading] = useState(false);
 const [totalTx, setTotalTx] = useState(0);
@@ -21,8 +23,8 @@ const [totalAccounts, setTotalAccounts] = useState(0);
 const [uniqueAccounts, setUniqueAccounts] = useState(0);
 const [period, setPeriod] = useState(PERIODS[0]);
 const [selectedDAOs, setSelectedDAOs] = useState([]);
-const [dailyTotalTx, setdailyTotalTx] = useState([])
-const [uniqueActiveUsers, setUniqueActiveUsers] = useState([])
+const [dailyTotalTx, setdailyTotalTx] = useState([]);
+const [uniqueActiveUsers, setUniqueActiveUsers] = useState([]);
 
 const fetchData = () => {
   setLoading(true);
@@ -43,7 +45,7 @@ const fetchData = () => {
       setTotalAccounts(_totalAccounts);
     });
     API.get_unique_accounts_by_period(accountId).then((resp) => {
-      _uniqueAccounts += parseInt(resp.body[period].count);
+      _uniqueAccounts += parseInt(resp.body[period].data.length);
       _uniqueActiveUsers.push(...resp.body[period].data);
       setUniqueAccounts(_uniqueAccounts);
       setUniqueActiveUsers(_uniqueActiveUsers);
@@ -54,22 +56,24 @@ const fetchData = () => {
     });
   });
 
-
   setLoading(false);
 };
 
 useEffect(() => fetchData(), [selectedDAOs, period]);
 
+dailyTotalTx
+  .sort((a, b) => new Date(a.date) - new Date(b.date))
+  .forEach((element) => {
+    dailyTotal.labels.push(element.date);
+    dailyTotal.data.push(element.count);
+  });
 
-dailyTotalTx.sort((a, b) => new Date(a.date) - new Date(b.date)).forEach(element => {
-  dailyTotal.labels.push(element.date)
-  dailyTotal.data.push(element.count)
-});
-
-uniqueActiveUsers.sort((a, b) => new Date(a.day) - new Date(b.day)).forEach(element => {
-  dailyTotalUsers.labels.push(element.day)
-  dailyTotalUsers.data.push(element.unique_users)
-});
+uniqueActiveUsers
+  .sort((a, b) => new Date(a.day) - new Date(b.day))
+  .forEach((element) => {
+    dailyTotalUsers.labels.push(element.day);
+    dailyTotalUsers.data.push(element.unique_users);
+  });
 
 return (
   <Container>
@@ -124,11 +128,15 @@ return (
       }}
     />
     <ChartContainer>
-      <Widget src={`/*__@replace:widgetPath__*/.Components.Chart.index`} 
-              props={{ title: 'DAILY NUMBER OF TRANSACTIONS', data: dailyTotal }}/>
-      <Widget src={`/*__@replace:widgetPath__*/.Components.Chart.index`}
-              props={{ title: 'UNIQUE ACTIVE USERS', data: dailyTotalUsers }}/>
-     </ ChartContainer>
+      <Widget
+        src={`/*__@replace:widgetPath__*/.Components.Chart.index`}
+        props={{ title: "DAILY NUMBER OF TRANSACTIONS", data: dailyTotal }}
+      />
+      <Widget
+        src={`/*__@replace:widgetPath__*/.Components.Chart.index`}
+        props={{ title: "UNIQUE ACTIVE USERS", data: dailyTotalUsers }}
+      />
+    </ChartContainer>
     <div className="section py-5">
       <Widget
         src={`/*__@replace:widgetPath__*/.Components.Table.index`}

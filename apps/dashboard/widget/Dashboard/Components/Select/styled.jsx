@@ -12,7 +12,7 @@ return {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 5px 25px;
+      padding: 10px 25px;
 
       &.black {
         background: #1e1d22;
@@ -20,6 +20,7 @@ return {
 
       .selected {
         border: 0;
+        width: 100%;
         font-size: 20px;
         font-style: normal;
         font-weight: 400;

@@ -13,11 +13,14 @@ const {
   isOpen,
   onClear,
   containerClass,
+  text,
 } = props;
-const [open, setOpen] = useState(isOpen);
+const [open, setOpen] = useState(false);
 const selectOptions = defaultValue ? [defaultValue, ...options] : options;
 
-const title = () => {
+const setTitle = () => {
+  if (text) return text;
+
   if (Array.isArray(values)) {
     return values.length ? `${values.length} Selected` : defaultValue;
   } else {
@@ -25,10 +28,14 @@ const title = () => {
   }
 };
 
+const handleOpen = () => setOpen(!open);
+
 return (
-  <Select onClick={() => setOpen(!open)}>
+  <Select onClick={() => !multiple && handleOpen()}>
     <div className={containerClass}>
-      <div className="selected">{title()}</div>
+      <div className="selected" onClick={handleOpen}>
+        {setTitle()}
+      </div>
       <div className="d-flex gap-2">
         {multiple && values.length > 0 && (
           <i
@@ -36,7 +43,7 @@ return (
             onClick={() => onClear() && setOpen(false)}
           />
         )}
-        <i className="bi bi-chevron-down fs-5 mt-1" />
+        <i onClick={handleOpen} className="bi bi-chevron-down fs-5 mt-1" />
       </div>
     </div>
     {open && (

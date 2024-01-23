@@ -1,5 +1,6 @@
 const Cell = styled.div`
   min-width: 270px;
+  width: 100%;
   height: 36px;
   background: #e8ecf0;
   display: flex;
@@ -12,6 +13,15 @@ const Cell = styled.div`
   font-weight: 350;
   line-height: 36px;
   position: relative;
+
+  .dao-name {
+    display: block;
+    width: 90%;
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-wrap: nowrap;
+  }
 `;
 
 const Container = styled.div`
@@ -27,28 +37,30 @@ const calculateWidth = (actual, max) => {
   return `${(actual / max) * 100}%`;
 };
 
-const { cells } = props;
+const { datatable } = props;
 
 return (
   <Container>
-    {cells.map((cell, index) => (
+    {datatable.map((data, index) => (
       <div key={index} className="w-100 d-flex align-items-center gap-2">
-        <Cell>{cell.name}</Cell>
+        <Cell>
+          <div className="dao-name">{data.daoId}</div>
+        </Cell>
         <Cell>
           <div
             style={{
-              background: cell.userRetetntion.color,
+              background: data.userRetention.color,
               width: calculateWidth(
-                cell.userRetetntion.actual,
-                cell.userRetetntion.max,
+                data.userRetention.actual,
+                data.userRetention.max,
               ),
             }}
             className="h-100 position-absolute start-0"
           ></div>
-          <div className="position-relative">{cell.userRetetntion.actual}</div>
+          <div className="position-relative">{data.userRetention.actual}</div>
         </Cell>
-        <Cell>{cell.DAPUsed}</Cell>
-        <Cell>{cell.aquisitionCost}</Cell>
+        <Cell>{data.DAPUsed}</Cell>
+        <Cell>{data.aquisitionCost}</Cell>
       </div>
     ))}
   </Container>

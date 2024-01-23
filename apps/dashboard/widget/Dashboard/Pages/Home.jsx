@@ -8,16 +8,8 @@ if (!ndcDAOs || !Container || !ChartContainer)
 
 const PERIODS = ["daily", "weekly", "monthly"];
 const defaultDAOOption = "All DAOs";
-
-const dailyTotal = {
-  labels: [],
-  data: [],
-};
-
-const dailyTotalUsers = {
-  labels: [],
-  data: [],
-};
+const dailyTotal = { labels: [], data: [] };
+const dailyTotalUsers = { labels: [], data: [] };
 
 const [loading, setLoading] = useState(false);
 const [totalTx, setTotalTx] = useState(0);
@@ -86,7 +78,9 @@ const fetchData = () => {
   setLoading(false);
 };
 
-useEffect(() => fetchData(), [selectedDAOs, period]);
+useEffect(() => {
+  fetchData();
+}, [selectedDAOs, period]);
 
 dailyTotalTx
   .sort((a, b) => new Date(a.date) - new Date(b.date))
@@ -112,7 +106,6 @@ return (
             props={{
               options: ndcDAOs,
               defaultValue: defaultDAOOption,
-              isOpen: selectOpen,
               multiple: true,
               values: selectedDAOs,
               containerClass: "selected-container",
@@ -164,19 +157,10 @@ return (
         props={{ title: "UNIQUE ACTIVE USERS", data: dailyTotalUsers }}
       />
     </ChartContainer>
-    <div style={{flexDirection: 'column'}} className="section py-5">
+    <div className="section py-5 flex-column">
       <Widget
         src={`/*__@replace:widgetPath__*/.Components.Table.index`}
-        props={{ ndcDAOs, 
-          cells: [
-          { name: 'Degen DAO', userRetetntion: { actual: 712, max: 1000, color: '#68D895' }, DAPUsed:  4, aquisitionCost: 7 },
-          { name: 'NFT DAO', userRetetntion: { actual: 612, max: 1000, color: '#68D895'}, DAPUsed:  4, aquisitionCost: 7 },
-          { name: 'Global DAO', userRetetntion: { actual: 612, max: 1000, color: '#68D895' }, DAPUsed:  4, aquisitionCost: 7 },
-          { name: 'Onboard DAO', userRetetntion: { actual: 512, max: 1000, color: '#68D895' }, DAPUsed:  4, aquisitionCost: 7 },
-          { name: 'Aurora Community DAO', userRetetntion: { actual: 512, max: 1000, color: '#68D895' }, DAPUsed:  4, aquisitionCost: 7 },
-          { name: 'Marketing DAO', userRetetntion: { actual: 412, max: 1000, color: '#68D895' }, DAPUsed:  4, aquisitionCost: 7 },
-          { name: 'Degen DAO', userRetetntion: { actual: 412, max: 1000, color: '#68D895' }, DAPUsed:  4, aquisitionCost: 7 },
-          { name: 'Degen DAO', userRetetntion: { actual: 312, max: 1000, color: '#68D895' }, DAPUsed:  4, aquisitionCost: 7 }]}}
+        props={{ ndcDAOs }}
       />
     </div>
   </Container>

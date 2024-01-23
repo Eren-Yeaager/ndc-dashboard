@@ -164,10 +164,19 @@ return (
         props={{ title: "UNIQUE ACTIVE USERS", data: dailyTotalUsers }}
       />
     </ChartContainer>
-    <div className="section py-5">
+    <div style={{flexDirection: 'column'}} className="section py-5">
       <Widget
         src={`/*__@replace:widgetPath__*/.Components.Table.index`}
-        props={{ ndcDAOs }}
+        props={{ ndcDAOs, 
+          cells: [
+          { name: 'Degen DAO', userRetetntion: { actual: 712, max: 1000 }, DAPUsed:  4, aquisitionCost: 7 },
+          { name: 'NFT DAO', userRetetntion: { actual: 612, max: 1000 }, DAPUsed:  4, aquisitionCost: 7 },
+          { name: 'Global DAO', userRetetntion: { actual: 612, max: 1000 }, DAPUsed:  4, aquisitionCost: 7 },
+          { name: 'Onboard DAO', userRetetntion: { actual: 512, max: 1000 }, DAPUsed:  4, aquisitionCost: 7 },
+          { name: 'Aurora Community DAO', userRetetntion: { actual: 512, max: 1000 }, DAPUsed:  4, aquisitionCost: 7 },
+          { name: 'Marketing DAO', userRetetntion: { actual: 412, max: 1000 }, DAPUsed:  4, aquisitionCost: 7 },
+          { name: 'Degen DAO', userRetetntion: { actual: 412, max: 1000 }, DAPUsed:  4, aquisitionCost: 7 },
+          { name: 'Degen DAO', userRetetntion: { actual: 312, max: 1000 }, DAPUsed:  4, aquisitionCost: 7 }]}}
       />
     </div>
   </Container>

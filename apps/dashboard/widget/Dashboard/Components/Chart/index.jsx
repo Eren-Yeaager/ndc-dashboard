@@ -111,7 +111,7 @@ const args = {
   ),
 };
 return (
-  <div className="section py-5">
+  <div className="section">
     <Widget
       src="/*__@replace:widgetPath__*/.Components.Chart.container"
       props={args}

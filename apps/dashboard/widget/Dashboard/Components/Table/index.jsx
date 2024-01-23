@@ -1,10 +1,10 @@
-const { Row } = VM.require(
+const { Table } = VM.require(
   `/*__@replace:widgetPath__*/.Components.Table.styled`,
 );
 
-if (!Row) return <Widget src="flashui.near/widget/Loading" />;
+if (!Table) return <Widget src="flashui.near/widget/Loading" />;
 
-const { ndcDAOs, cells} = props;
+const { ndcDAOs, cells } = props;
 
 return (
   <>
@@ -13,8 +13,8 @@ return (
       props={{ ndcDAOs }}
     />
     <Widget
-     src={`/*__@replace:widgetPath__*/.Components.Table.Cells.index`}
-     props={{ cells }}
-   />
+      src={`/*__@replace:widgetPath__*/.Components.Table.Cells.index`}
+      props={{ cells }}
+    />
   </>
 );

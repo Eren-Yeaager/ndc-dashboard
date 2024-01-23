@@ -1,8 +1,8 @@
-const { Container } = VM.require(
+const { Card } = VM.require(
   `/*__@replace:widgetPath__*/.Components.Chart.styled`,
 );
 
-if (!Container) return <Widget src="flashui.near/widget/Loading" />;
+if (!Card) return <Widget src="flashui.near/widget/Loading" />;
 
 const chartData = props.chartData ?? {
   labels: props.data.labels.map(
@@ -104,17 +104,11 @@ const code = `
 </html>
 `;
 
-const args = {
-  title: props.title,
-  component: (
-    <iframe iframeResizer srcDoc={code} message={{ data: chartData }} />
-  ),
-};
 return (
-  <div className="section">
-    <Widget
-      src="/*__@replace:widgetPath__*/.Components.Chart.container"
-      props={args}
-    />
+  <div className="section py-5">
+    <Card>
+      <span>{props.title}</span>
+      <iframe iframeResizer srcDoc={code} message={{ data: chartData }} />
+    </Card>
   </div>
 );

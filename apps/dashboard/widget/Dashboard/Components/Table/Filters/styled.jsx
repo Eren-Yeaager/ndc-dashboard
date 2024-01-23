@@ -7,20 +7,7 @@ return {
     width: 100%;
     & > div {
       width: 100%;
-    }
-
-    @media screen and (max-width: 1400px) {
-      flex-wrap: wrap;
-      & > div {
-        width: 48%;
-      }
-    }
-
-    @media screen and (max-width: 868px) {
-      flex-wrap: wrap;
-      & > div {
-        width: 100%;
-      }
+      min-width: max-content;
     }
   `,
 
@@ -33,10 +20,6 @@ return {
     font-size: 24px;
     font-weight: 350;
     width: 100%;
-
-    @media screen and (max-width: 868px) {
-      width: 100%;
-    }
   `,
 
   SubFilterItem: styled.div`

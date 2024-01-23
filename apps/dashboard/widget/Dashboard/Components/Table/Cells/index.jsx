@@ -1,7 +1,6 @@
 
-
 const Cell = styled.div`
-  width: 320px;
+  min-width: 295px;
   height: 36px;
   background: #E8ECF0;
   display: flex;
@@ -16,13 +15,20 @@ const Cell = styled.div`
   position: relative;
 `;
 
+const ScrollableWrapper = styled.div`
+  width: 100%;
+  overflow-y: scroll;
+  overflow-x: scroll;
+  -webkit-overflow-scrolling: touch; 
+`;
+
 const Container = styled.div`
   display: flex;
-  width: 100%;
-  gap: 1rem;
-  align-items: center;
   flex-direction: column;
+  gap: 1rem;
+  align-items: flex-start;
   padding-top: 1rem;
+  -webkit-overflow-scrolling: touch; 
 `;
 
   const calculateWidth = (actual, max) => {
@@ -32,17 +38,19 @@ const Container = styled.div`
   const { cells } = props;
 
   return (
-    <Container>
-      {cells.map((cell, index) => (
-        <div key={index} className="d-flex align-items-center gap-2" style={{width: '100%'}}>
-          <Cell>{cell.name}</Cell>
-          <Cell>
-            <div style={{background: '#68D895', width: calculateWidth(cell.userRetetntion.actual, cell.userRetetntion.max)}} className="h-100 position-absolute start-0"></div>
-            <div className="position-relative">{cell.userRetetntion.actual}</div>
-          </Cell>
-          <Cell>{cell.DAPUsed}</Cell>
-          <Cell>{cell.aquisitionCost}</Cell>
-        </div>
-      ))}
-    </Container>
+    <ScrollableWrapper>
+      <Container>
+        {cells.map((cell, index) => (
+          <div key={index} className="d-flex align-items-center gap-2" style={{width: '100%'}}>
+            <Cell>{cell.name}</Cell>
+            <Cell>
+              <div style={{background: cell.userRetetntion.color, width: calculateWidth(cell.userRetetntion.actual, cell.userRetetntion.max)}} className="h-100 position-absolute start-0"></div>
+              <div className="position-relative">{cell.userRetetntion.actual}</div>
+            </Cell>
+            <Cell>{cell.DAPUsed}</Cell>
+            <Cell>{cell.aquisitionCost}</Cell>
+          </div>
+        ))}
+      </Container>
+      </ScrollableWrapper>
   );

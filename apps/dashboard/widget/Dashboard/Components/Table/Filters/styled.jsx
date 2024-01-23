@@ -1,25 +1,13 @@
 return {
-  FilterContainer: styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 1rem;
-    width: 100%;
-    & > div {
-      width: 100%;
-      min-width: max-content;
-    }
-  `,
-
   FilterItem: styled.div`
     border-radius: 10px;
     background: #1e1d22;
     padding: 5px 10px;
     color: #fff;
     text-align: center;
-    font-size: 24px;
     font-weight: 350;
     width: 100%;
+    min-width: 270px;
   `,
 
   SubFilterItem: styled.div`
@@ -29,7 +17,7 @@ return {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 20px;
     font-style: normal;
     font-weight: 350;
     width: 100%;

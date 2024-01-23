@@ -1,8 +1,8 @@
-const { FilterItem, SubFilterItem, FilterContainer } = VM.require(
+const { FilterItem, SubFilterItem } = VM.require(
   `/*__@replace:widgetPath__*/.Components.Table.Filters.styled`,
 );
 
-if (!FilterItem || !SubFilterItem || !FilterContainer)
+if (!FilterItem || !SubFilterItem)
   return <Widget src="flashui.near/widget/Loading" />;
 
 const { ndcDAOs } = props;
@@ -17,7 +17,7 @@ const FILTERS = [
     options: [defaultDAOOption, ...ndcDAOs],
   },
   {
-    text: "User Retetntion",
+    text: "User Retention",
     hintText: "Text TBD",
     options: PERIODS,
   },
@@ -57,7 +57,7 @@ const fetchData = () => {
 useEffect(() => fetchData(), [selectedDAOs, filter]);
 
 return (
-  <FilterContainer>
+  <div className="d-flex gap-2 w-100">
     {FILTERS.map(({ text, hintText, options, value }, i) => (
       <div className="d-flex flex-column gap-1">
         <FilterItem>
@@ -86,5 +86,5 @@ return (
         </SubFilterItem>
       </div>
     ))}
-  </FilterContainer>
+  </div>
 );

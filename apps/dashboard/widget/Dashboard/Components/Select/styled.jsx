@@ -15,7 +15,7 @@ return {
       padding: 5px 25px;
 
       &.black {
-        background: #000;
+        background: #1e1d22;
       }
 
       .selected {
@@ -31,6 +31,7 @@ return {
 
     ul {
       width: 100%;
+      font-size: 18px;
       background: #fff;
       color: initial;
       border-radius: 6px;
@@ -40,6 +41,7 @@ return {
       position: absolute;
       padding: 0.5rem 0;
       top: 50px;
+      z-index: 100;
 
       li {
         cursor: pointer;

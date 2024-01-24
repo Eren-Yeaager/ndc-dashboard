@@ -32,8 +32,6 @@ const get = async (url) =>
   });
 
 const API = {
-  get_total_tx: (accountId) => get(`account/tx-count/${accountId}`),
-  get_daily_total_tx: (accountId) => get(`account/daily-tx-count/${accountId}`),
   get_accounts: (accountId) =>
     get(`event-historic/account/relationships/${accountId}?search=${accountId}
   `),
@@ -55,10 +53,6 @@ const fetchData = () => {
   const daos = selectedDAOs.length ? selectedDAOs : ndcDAOs;
 
   daos.map((accountId) => {
-    API.get_total_tx(accountId).then((resp) => {
-      _totalTx += parseInt(resp.body);
-      setTotalTx(_totalTx);
-    });
     API.get_accounts(accountId).then((resp) => {
       _totalAccounts += resp.body.length;
       setTotalAccounts(_totalAccounts);
@@ -66,12 +60,18 @@ const fetchData = () => {
     API.get_unique_accounts_by_period(accountId).then((resp) => {
       _uniqueAccounts += parseInt(resp.body[period].data.length);
       _uniqueActiveUsers.push(...resp.body[period].data);
+      _totalTx += resp.body[period].data.reduce((memo, current) => { 
+        return memo + parseInt(current.tx_count) 
+      }, 0);
+
+      _dailyTotalTx.push(...resp.body[period].data.map((item) => {
+        return { date: item.day, count: parseInt(item.tx_count) }
+      }));
+     
+      setTotalTx(_totalTx)
+      setdailyTotalTx(_dailyTotalTx);
       setUniqueAccounts(_uniqueAccounts);
       setUniqueActiveUsers(_uniqueActiveUsers);
-    });
-    API.get_daily_total_tx(accountId).then((res) => {
-      _dailyTotalTx.push(...res.body);
-      setdailyTotalTx(_dailyTotalTx);
     });
   });
 
@@ -95,6 +95,8 @@ uniqueActiveUsers
     dailyTotalUsers.labels.push(element.day);
     dailyTotalUsers.data.push(element.unique_users);
   });
+
+  console.log('here')
 
 return (
   <Container>

@@ -4,7 +4,16 @@ const { SubFilterItem } = VM.require(
 
 if (!SubFilterItem) return <Widget src="flashui.near/widget/Loading" />;
 
-const { text, options, multiple, onChange, onClear, values, hintText } = props;
+const {
+  text,
+  options,
+  multiple,
+  onChange,
+  onClear,
+  values,
+  hintText,
+  defaultValue,
+} = props;
 
 return (
   <div className="d-flex flex-column gap-1 w-100">
@@ -22,7 +31,11 @@ return (
     />
 
     <SubFilterItem>
-      <div>{values.length > 1 ? `${values.length} Selected` : values[0]}</div>
+      <div>
+        {values.length > 1
+          ? `${values.length} Selected`
+          : defaultValue ?? values[0]}
+      </div>
     </SubFilterItem>
   </div>
 );

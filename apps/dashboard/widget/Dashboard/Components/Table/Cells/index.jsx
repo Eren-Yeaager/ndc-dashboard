@@ -22,6 +22,11 @@ const Cell = styled.div`
     overflow: hidden;
     text-wrap: nowrap;
   }
+
+  .colored {
+    width: ${(props) => props.width}%;
+    background: ${(props) => props.color};
+  }
 `;
 
 const Container = styled.div`
@@ -33,35 +38,65 @@ const Container = styled.div`
   -webkit-overflow-scrolling: touch;
 `;
 
-const calculateWidth = (actual, max) => {
-  return `${(actual / max) * 100}%`;
+const getPercentage = (start, end, divider) => {
+  const val = parseInt(((end / start) * 100) / (divider ?? 1));
+
+  return val > 100 ? 100 : val;
 };
 
-const { datatable } = props;
+const formatValue = (val) =>
+  val >= 1000000000
+    ? `${parseFloat(val / 1000000000).toFixed(2)}B`
+    : val >= 1000000
+    ? `${parseFloat(val / 1000000).toFixed(2)}M`
+    : val >= 1000
+    ? `${parseFloat(val / 1000).toFixed(2)}K`
+    : val;
+
+const { dataSet } = props;
 
 return (
   <Container>
-    {datatable.map((data, index) => (
-      <div key={index} className="w-100 d-flex align-items-center gap-2">
-        <Cell>
-          <div className="dao-name">{data.daoId}</div>
-        </Cell>
-        <Cell>
-          <div
-            style={{
-              background: data.userRetention.color,
-              width: calculateWidth(
-                data.userRetention.actual,
-                data.userRetention.max,
-              ),
-            }}
-            className="h-100 position-absolute start-0"
-          ></div>
-          <div className="position-relative">{data.userRetention.actual}</div>
-        </Cell>
-        <Cell>{data.DAPUsed}</Cell>
-        <Cell>{data.aquisitionCost}</Cell>
-      </div>
-    ))}
+    {Object.entries(dataSet).map(
+      ([daoId, { retention, DAPUsed, aquisitionCost }], index) => (
+        <div key={index} className="w-100 d-flex align-items-center gap-2">
+          <Cell>
+            <div className="dao-name">{daoId}</div>
+          </Cell>
+          <Cell
+            width={getPercentage(retention.start, retention.end, 2)}
+            color={
+              getPercentage(retention.start, retention.end, 2) >= 50
+                ? "#68D895"
+                : "#EB9DBB"
+            }
+          >
+            <div className="colored h-100 position-absolute start-0" />
+            <div className="position-relative">
+              {retention.end} / {retention.start}
+            </div>
+          </Cell>
+          <Cell>{formatValue(DAPUsed)}</Cell>
+          <Cell
+            width={getPercentage(
+              aquisitionCost.incomes,
+              aquisitionCost.outcomes,
+            )}
+            color={
+              getPercentage(aquisitionCost.incomes, aquisitionCost.outcomes) >=
+              50
+                ? "#68D895"
+                : "#EB9DBB"
+            }
+          >
+            <div className="colored h-100 position-absolute start-0" />
+            <div className="position-relative">
+              {formatValue(aquisitionCost.outcomes)} /{" "}
+              {formatValue(aquisitionCost.incomes)}
+            </div>
+          </Cell>
+        </div>
+      ),
+    )}
   </Container>
 );

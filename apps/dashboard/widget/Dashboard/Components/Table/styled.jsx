@@ -1,11 +1,8 @@
 return {
-  Table: styled.div`
-    overflow-x: scroll;
-    width: 100%;
-  `,
   ScrollableWrapper: styled.div`
     width: 100%;
-    overflow-y: scroll;
+    min-height: 15rem;
+    overflow-y: hidden;
     overflow-x: scroll;
     -webkit-overflow-scrolling: touch;
   `,

@@ -19,7 +19,7 @@ const [dataState, setDataState] = useState({
   totalAccounts: 0,
   uniqueAccounts: 0,
   dailyTotalTx: [],
-  uniqueActiveUsers: []
+  uniqueActiveUsers: [],
 });
 
 const baseUrl = "https://api.pikespeak.ai";
@@ -43,6 +43,10 @@ const API = {
     get(`contract-analysis/metrics/${accountId}`),
   get_retentions: (accountId) =>
     get(`contract-analysis/retention/${accountId}`),
+  get_dapps_spends: (accountId) =>
+    get(`/contract-analysis/crossdapp-near-spending/${accountId}`),
+  get_aquisition_cost: (accountId) =>
+    get(`/contract-analysis/metrics/${accountId}`),
 };
 
 const fetchData = () => {
@@ -52,31 +56,39 @@ const fetchData = () => {
     totalAccounts: 0,
     uniqueAccounts: 0,
     dailyTotalTx: [],
-    uniqueActiveUsers: []
+    uniqueActiveUsers: [],
   };
 
   const daos = selectedDAOs.length ? selectedDAOs : ndcDAOs;
 
-  const promises = daos.flatMap(accountId => [
-    API.get_accounts(accountId).then(resp => {
+  const promises = daos.flatMap((accountId) => [
+    API.get_accounts(accountId).then((resp) => {
       newState.totalAccounts += resp.body.length;
     }),
-    API.get_unique_accounts_by_period(accountId).then(resp => {
+    API.get_unique_accounts_by_period(accountId).then((resp) => {
       newState.uniqueAccounts += parseInt(resp.body[period].data.length);
       newState.uniqueActiveUsers.push(...resp.body[period].data);
-      newState.totalTx += resp.body[period].data.reduce((memo, current) => memo + parseInt(current.tx_count), 0);
-      newState.dailyTotalTx.push(...resp.body[period].data.map(item => ({ date: item.day, count: parseInt(item.tx_count) })));
-    })
+      newState.totalTx += resp.body[period].data.reduce(
+        (memo, current) => memo + parseInt(current.tx_count),
+        0,
+      );
+      newState.dailyTotalTx.push(
+        ...resp.body[period].data.map((item) => ({
+          date: item.day,
+          count: parseInt(item.tx_count),
+        })),
+      );
+    }),
   ]);
 
   Promise.all(promises).then(() => {
     setDataState(newState);
     setLoading(false);
-  })
+  });
 };
 
 useEffect(() => {
-  fetchData();  
+  fetchData();
 }, [selectedDAOs, period]);
 
 dataState.dailyTotalTx
@@ -86,12 +98,12 @@ dataState.dailyTotalTx
     dailyTotal.data.push(element.count);
   });
 
-  dataState.uniqueActiveUsers
+dataState.uniqueActiveUsers
   .sort((a, b) => new Date(a.day) - new Date(b.day))
   .forEach((element) => {
     dailyTotalUsers.labels.push(element.day);
     dailyTotalUsers.data.push(element.unique_users);
-  }); 
+  });
 
 return (
   <Container>
@@ -147,17 +159,25 @@ return (
     <ChartContainer>
       <Widget
         src={`/*__@replace:widgetPath__*/.Components.Chart.index`}
-        props={{ title: "DAILY NUMBER OF TRANSACTIONS", data: dailyTotal }}
+        props={{
+          title: "DAILY NUMBER OF TRANSACTIONS",
+          data: dailyTotal,
+          loading,
+        }}
       />
       <Widget
         src={`/*__@replace:widgetPath__*/.Components.Chart.index`}
-        props={{ title: "UNIQUE ACTIVE USERS", data: dailyTotalUsers }}
+        props={{
+          title: "UNIQUE ACTIVE USERS",
+          data: dailyTotalUsers,
+          loading,
+        }}
       />
     </ChartContainer>
     <div className="section py-5 flex-column">
       <Widget
         src={`/*__@replace:widgetPath__*/.Components.Table.index`}
-        props={{ ndcDAOs }}
+        props={{ ndcDAOs, API }}
       />
     </div>
   </Container>

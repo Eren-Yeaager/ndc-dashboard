@@ -32,6 +32,8 @@ return {
 
     ul {
       width: 100%;
+      max-height: 12rem;
+      overflow-y: scroll;
       font-size: 18px;
       background: #fff;
       color: initial;

@@ -12,13 +12,15 @@ const dailyTotal = { labels: [], data: [] };
 const dailyTotalUsers = { labels: [], data: [] };
 
 const [loading, setLoading] = useState(false);
-const [totalTx, setTotalTx] = useState(0);
-const [totalAccounts, setTotalAccounts] = useState(0);
-const [uniqueAccounts, setUniqueAccounts] = useState(0);
 const [period, setPeriod] = useState(PERIODS[0]);
 const [selectedDAOs, setSelectedDAOs] = useState([]);
-const [dailyTotalTx, setdailyTotalTx] = useState([]);
-const [uniqueActiveUsers, setUniqueActiveUsers] = useState([]);
+const [dataState, setDataState] = useState({
+  totalTx: 0,
+  totalAccounts: 0,
+  uniqueAccounts: 0,
+  dailyTotalTx: [],
+  uniqueActiveUsers: []
+});
 
 const baseUrl = "https://api.pikespeak.ai";
 
@@ -32,8 +34,6 @@ const get = async (url) =>
   });
 
 const API = {
-  get_total_tx: (accountId) => get(`account/tx-count/${accountId}`),
-  get_daily_total_tx: (accountId) => get(`account/daily-tx-count/${accountId}`),
   get_accounts: (accountId) =>
     get(`event-historic/account/relationships/${accountId}?search=${accountId}
   `),
@@ -47,54 +47,51 @@ const API = {
 
 const fetchData = () => {
   setLoading(true);
-  let _totalTx = 0;
-  let _totalAccounts = 0;
-  let _uniqueAccounts = 0;
-  let _uniqueActiveUsers = [];
-  let _dailyTotalTx = [];
+  let newState = {
+    totalTx: 0,
+    totalAccounts: 0,
+    uniqueAccounts: 0,
+    dailyTotalTx: [],
+    uniqueActiveUsers: []
+  };
+
   const daos = selectedDAOs.length ? selectedDAOs : ndcDAOs;
 
-  daos.map((accountId) => {
-    API.get_total_tx(accountId).then((resp) => {
-      _totalTx += parseInt(resp.body);
-      setTotalTx(_totalTx);
-    });
-    API.get_accounts(accountId).then((resp) => {
-      _totalAccounts += resp.body.length;
-      setTotalAccounts(_totalAccounts);
-    });
-    API.get_unique_accounts_by_period(accountId).then((resp) => {
-      _uniqueAccounts += parseInt(resp.body[period].data.length);
-      _uniqueActiveUsers.push(...resp.body[period].data);
-      setUniqueAccounts(_uniqueAccounts);
-      setUniqueActiveUsers(_uniqueActiveUsers);
-    });
-    API.get_daily_total_tx(accountId).then((res) => {
-      _dailyTotalTx.push(...res.body);
-      setdailyTotalTx(_dailyTotalTx);
-    });
-  });
+  const promises = daos.flatMap(accountId => [
+    API.get_accounts(accountId).then(resp => {
+      newState.totalAccounts += resp.body.length;
+    }),
+    API.get_unique_accounts_by_period(accountId).then(resp => {
+      newState.uniqueAccounts += parseInt(resp.body[period].data.length);
+      newState.uniqueActiveUsers.push(...resp.body[period].data);
+      newState.totalTx += resp.body[period].data.reduce((memo, current) => memo + parseInt(current.tx_count), 0);
+      newState.dailyTotalTx.push(...resp.body[period].data.map(item => ({ date: item.day, count: parseInt(item.tx_count) })));
+    })
+  ]);
 
-  setLoading(false);
+  Promise.all(promises).then(() => {
+    setDataState(newState);
+    setLoading(false);
+  })
 };
 
 useEffect(() => {
-  fetchData();
+  fetchData();  
 }, [selectedDAOs, period]);
 
-dailyTotalTx
+dataState.dailyTotalTx
   .sort((a, b) => new Date(a.date) - new Date(b.date))
   .forEach((element) => {
     dailyTotal.labels.push(element.date);
     dailyTotal.data.push(element.count);
   });
 
-uniqueActiveUsers
+  dataState.uniqueActiveUsers
   .sort((a, b) => new Date(a.day) - new Date(b.day))
   .forEach((element) => {
     dailyTotalUsers.labels.push(element.day);
     dailyTotalUsers.data.push(element.unique_users);
-  });
+  }); 
 
 return (
   <Container>
@@ -141,9 +138,9 @@ return (
     <Widget
       src={`/*__@replace:widgetPath__*/.Components.MetricsDisplay.index`}
       props={{
-        totalTx,
-        totalAccounts,
-        uniqueAccounts,
+        totalTx: dataState.totalTx,
+        totalAccounts: dataState.totalAccounts,
+        uniqueAccounts: dataState.uniqueAccounts,
         loading,
       }}
     />

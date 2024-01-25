@@ -98,4 +98,38 @@ return {
       ${(props) => (props.selected ? "#a39acd" : "rgb(216 216 216)")};
     color: #a39acd;
   `,
+  
+  TooltipContainer: styled.div`
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+  `,
+
+ TooltipText: styled.span`
+    visibility: hidden;
+    width: 150px;
+    background-color: #ffffff;
+    text-align: center;
+    border-radius: 3px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 120%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: transparent transparent white transparent; 
+      transform: translateX(-50%);
+    }
+`,
 };

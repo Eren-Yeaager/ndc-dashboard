@@ -1,8 +1,10 @@
-const { Select, Check } = VM.require(
+const { Select, Check, TooltipContainer, TooltipText } = VM.require(
   `/*__@replace:widgetPath__*/.Components.Select.styled`,
 );
 
-if (!Select || !Check) return <Widget src="flashui.near/widget/Loading" />;
+const { assets } = VM.require(`/*__@replace:widgetPath__*/.Config`);
+
+if (!Select || !Check || !assets) return <Widget src="flashui.near/widget/Loading" />;
 
 const {
   values,
@@ -14,6 +16,7 @@ const {
   onClear,
   containerClass,
   text,
+  isTooltipVisible
 } = props;
 const [open, setOpen] = useState(false);
 const selectOptions = defaultValue ? [defaultValue, ...options] : options;
@@ -28,6 +31,19 @@ const setTitle = () => {
   }
 };
 
+const TooltipIcon = styled.i`
+  &:hover + ${TooltipText} {
+    visibility: visible;
+    opacity: 1;
+    color: #6B6C75;
+    font-family: Barlow;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px;
+  }
+`
+
 const handleOpen = () => setOpen(!open);
 
 return (
@@ -35,6 +51,12 @@ return (
     <div className={containerClass}>
       <div className="selected" onClick={handleOpen}>
         {setTitle()}
+        {isTooltipVisible && 
+          <TooltipContainer>
+            <TooltipIcon className="bi bi-info-circle-fill"></TooltipIcon>
+            <TooltipText>Tooltip placeholder</TooltipText>
+          </TooltipContainer>
+        }
       </div>
       <div className="d-flex gap-2">
         {multiple && values.length > 0 && (

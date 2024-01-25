@@ -27,6 +27,7 @@ return (
         onClear,
         values,
         onChange,
+        isTooltipVisible: true
       }}
     />
 

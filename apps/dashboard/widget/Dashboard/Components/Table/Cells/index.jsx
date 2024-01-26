@@ -51,14 +51,17 @@ const formatValue = (val) =>
     ? `${parseFloat(val / 1000000).toFixed(2)}M`
     : val >= 1000
     ? `${parseFloat(val / 1000).toFixed(2)}K`
-    : val;
+    : val.toFixed(2);
 
 const { dataSet } = props;
 
 return (
   <Container>
     {Object.entries(dataSet).map(
-      ([daoId, { retention, DAPUsed, aquisitionCost }], index) => (
+      (
+        [daoId, { retention, dappsUsed, balance, interactedAccounts }],
+        index,
+      ) => (
         <div key={index} className="w-100 d-flex align-items-center gap-2">
           <Cell>
             <div className="dao-name">{daoId}</div>
@@ -76,23 +79,14 @@ return (
               {retention.end} / {retention.start}
             </div>
           </Cell>
-          <Cell>{formatValue(DAPUsed)}</Cell>
+          <Cell>{dappsUsed}</Cell>
           <Cell
-            width={getPercentage(
-              aquisitionCost.incomes,
-              aquisitionCost.outcomes,
-            )}
-            color={
-              getPercentage(aquisitionCost.incomes, aquisitionCost.outcomes) >=
-              50
-                ? "#68D895"
-                : "#EB9DBB"
-            }
+            width={10}
+            color={balance / interactedAccounts < 1 ? "#68D895" : "#EB9DBB"}
           >
             <div className="colored h-100 position-absolute start-0" />
             <div className="position-relative">
-              {formatValue(aquisitionCost.outcomes)} /{" "}
-              {formatValue(aquisitionCost.incomes)}
+              {formatValue(balance / interactedAccounts)}
             </div>
           </Cell>
         </div>

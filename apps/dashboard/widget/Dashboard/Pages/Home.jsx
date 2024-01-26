@@ -47,6 +47,14 @@ const API = {
     get(`/contract-analysis/crossdapp-near-spending/${accountId}`),
   get_aquisition_cost: (accountId) =>
     get(`/contract-analysis/metrics/${accountId}`),
+  get_contract_relations: (accountId) =>
+    get(
+      `/event-historic/account/relationships/${accountId}?search=${accountId}`,
+    ),
+  get_balance: (accountId) => get(`/account/balance/${accountId}`),
+  get_dapps: () => get(`/contract-analysis/classification?isDapp=true`),
+  // get_dapps_categories: () => get(`/contract-analysis/classification-categories`),
+  
 };
 
 const fetchData = () => {

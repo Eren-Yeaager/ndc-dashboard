@@ -14,6 +14,7 @@ return (
     <Container>
       <Widget src={`/*__@replace:widgetPath__*/.Components.NavBar.index`} />
       {children}
+      <Widget src={`/*__@replace:widgetPath__*/.Components.Footer.index`} />
     </Container>
   </Theme>
 );

@@ -3,7 +3,7 @@ return {
     position: relative;
     width: 100%;
     height: 130px;
-    padding: 2rem 4.5rem 4rem 4.5rem;
+    padding: 3.5rem 4.5rem;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -35,7 +35,7 @@ return {
     }
 
     @media screen and (max-width: 768px) {
-      padding: 1rem 2rem 2.5rem 2rem;
+      padding: 2rem;
       justify-content: center;
 
       img {
@@ -48,8 +48,12 @@ return {
   Social: styled.div`
     display: flex;
     justify-content: space-between;
-    width: 250px;
+    width: 200px;
     margin-left: -100px;
+
+    img {
+      height: 30px;
+    }
 
     @media screen and (max-width: 768px) {
       margin-left: 0;
@@ -63,8 +67,11 @@ return {
   `,
 
   NearLogo: styled.div`
+    img {
+      height: 30px;
+    }
     @media screen and (max-width: 768px) {
       display: none;
     }
-  `
+  `,
 };

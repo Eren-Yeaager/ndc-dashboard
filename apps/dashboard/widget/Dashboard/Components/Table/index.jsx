@@ -16,6 +16,15 @@ const CURRENCIES = {
 const RETENTIONS = ["1 month", "2 months", "3 months", "4 months"];
 const DAPPS_USED_PERIOD = ["All Time"];
 
+const FILTER_IDS = {
+  dao: 'dao',
+  userRetention: 'userRetention',
+  dapUsed: 'dapUsed',
+  aquisitionCost: 'aquisitionCost'
+};
+
+const FILTER_OPENS = Object.keys(FILTER_IDS).map((item) => { return { [item]: false }}) 
+
 const [dataSet, setDataSet] = useState({});
 const [loading, setLoading] = useState(false);
 
@@ -27,38 +36,53 @@ const [selectedCurrency, setSelectedCurrency] = useState(
   Object.keys(CURRENCIES)[0],
 );
 
+const [filtersIsOpen, setFiltersIsOpen] = useState(FILTER_OPENS)
+const onFilterClick = (value) => setFiltersIsOpen({...FILTER_OPENS,  [value]: !filtersIsOpen[value]})
+
 const FILTERS = [
   {
+    id: FILTER_IDS.dao,
     text: "DAO",
     hintText: "NDC grassroots DAOs",
     options: [defaultDAOOption, ...ndcDAOs],
     values: selectedDAOs,
     defaultValue: defaultDAOOption,
     multiple: true,
+    filterIsOpen: filtersIsOpen[FILTER_IDS.dao],
+    onFilterClick,
     onChange: (value) => filterDAO(value),
     onClear: () => {
       setSelectedDAOs([]);
     },
   },
   {
+    id: FILTER_IDS.userRetention,
     text: "User Retention",
     hintText: "Text TBD",
     options: RETENTIONS,
     values: [RETENTIONS[selectedRetention]],
+    filterIsOpen: filtersIsOpen[FILTER_IDS.userRetention],
+    onFilterClick,
     onChange: (value) => setSelectedRetention(RETENTIONS.indexOf(value)),
   },
   {
+    id: FILTER_IDS.dapUsed,
     text: "DAP's Used",
     hintText: "Text TBD",
     options: DAPPS_USED_PERIOD,
     values: [DAPPS_USED_PERIOD[0]],
+    filterIsOpen: filtersIsOpen[FILTER_IDS.dapUsed],
+    onFilterClick,
     onChange: (value) => {},
   },
   {
+    id: FILTER_IDS.aquisitionCost,
     text: "Aquisition Cost",
     hintText: "Text TBD",
     options: Object.keys(CURRENCIES),
     values: [selectedCurrency],
+    filterIsOpen: filtersIsOpen[FILTER_IDS.aquisitionCost],
+    onFilterClick,
     onChange: (value) => setSelectedCurrency(value),
   },
 ];
@@ -136,9 +160,6 @@ const fetchData = () => {
           newDataSet[daoId].dappsUsed = allDapps.filter((dapp) =>
             interactedAccounts.includes(dapp),
           ).length;
-          console.log(interactedAccounts);
-          console.log(allDapps.length);
-          console.log(newDataSet[daoId].dappsUsed);
         }
       }),
     ];
@@ -164,6 +185,7 @@ return (
     <div className="d-flex gap-2 w-100">
       {FILTERS.map((filter) => (
         <Widget
+          key={filter.id}
           src={`/*__@replace:widgetPath__*/.Components.Table.Filters.index`}
           props={{ ...filter }}
         />

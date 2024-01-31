@@ -13,6 +13,9 @@ const {
   values,
   hintText,
   defaultValue,
+  onFilterClick,
+  id,
+  filterIsOpen
 } = props;
 
 return (
@@ -27,6 +30,9 @@ return (
         onClear,
         values,
         onChange,
+        onFilterClick,
+        id,
+        filterIsOpen,
         isTooltipVisible: true
       }}
     />

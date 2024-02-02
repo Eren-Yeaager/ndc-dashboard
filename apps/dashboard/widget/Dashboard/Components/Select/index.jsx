@@ -17,6 +17,7 @@ const {
   containerClass,
   text,
   isTooltipVisible,
+  hintText,
   onFilterClick,
   filterIsOpen,
   id,
@@ -40,6 +41,7 @@ const TooltipIcon = styled.i`
   &:hover + ${TooltipText} {
     visibility: visible;
     opacity: 1;
+    white-space: pre-wrap;
     color: #6B6C75;
     font-size: 12px;
     font-style: normal;
@@ -65,7 +67,7 @@ return (
         {isTooltipVisible && 
           <TooltipContainer>
             <TooltipIcon className="bi bi-info-circle-fill"></TooltipIcon>
-            <TooltipText>Tooltip placeholder</TooltipText>
+            <TooltipText>{hintText}</TooltipText>
           </TooltipContainer>
         }
       </div>

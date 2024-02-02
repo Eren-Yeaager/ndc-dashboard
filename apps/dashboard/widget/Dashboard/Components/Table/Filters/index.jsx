@@ -33,6 +33,7 @@ return (
         onFilterClick,
         id,
         filterIsOpen,
+        hintText,
         isTooltipVisible: true
       }}
     />

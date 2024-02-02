@@ -58,7 +58,7 @@ const FILTERS = [
   {
     id: FILTER_IDS.userRetention,
     text: "User Retention",
-    hintText: "Text TBD",
+    hintText: "The percentage of accounts who continue interacting on chain recently: Accounts onboarded/Accounts left",
     options: RETENTIONS,
     values: [RETENTIONS[selectedRetention]],
     filterIsOpen: filtersIsOpen[FILTER_IDS.userRetention],
@@ -68,7 +68,7 @@ const FILTERS = [
   {
     id: FILTER_IDS.dapUsed,
     text: "DAP's Used",
-    hintText: "Text TBD",
+    hintText: "Median number of dApps used by accounts retained for more then a week",
     options: DAPPS_USED_PERIOD,
     values: [DAPPS_USED_PERIOD[0]],
     filterIsOpen: filtersIsOpen[FILTER_IDS.dapUsed],
@@ -78,7 +78,7 @@ const FILTERS = [
   {
     id: FILTER_IDS.aquisitionCost,
     text: "Aquisition Cost",
-    hintText: "Text TBD",
+    hintText: "Budget divided by the number of accounts interacting  through the funded initiative",
     options: Object.keys(CURRENCIES),
     values: [selectedCurrency],
     filterIsOpen: filtersIsOpen[FILTER_IDS.aquisitionCost],

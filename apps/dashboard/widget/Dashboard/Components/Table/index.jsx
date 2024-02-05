@@ -67,7 +67,7 @@ const FILTERS = [
   },
   {
     id: FILTER_IDS.dapUsed,
-    text: "DAP's Used",
+    text: "DApp's Used",
     hintText: "Median number of dApps used by accounts retained for more then a week",
     options: DAPPS_USED_PERIOD,
     values: [DAPPS_USED_PERIOD[0]],
@@ -77,7 +77,7 @@ const FILTERS = [
   },
   {
     id: FILTER_IDS.aquisitionCost,
-    text: "Aquisition Cost",
+    text: "Acquisition Cost",
     hintText: "Budget divided by the number of accounts interacting  through the funded initiative",
     options: Object.keys(CURRENCIES),
     values: [selectedCurrency],

@@ -15,7 +15,7 @@ const {
   defaultValue,
   onFilterClick,
   id,
-  filterIsOpen
+  filterIsOpen,
 } = props;
 
 return (
@@ -34,7 +34,7 @@ return (
         id,
         filterIsOpen,
         hintText,
-        isTooltipVisible: true
+        isTooltipVisible: true,
       }}
     />
 

@@ -1,4 +1,4 @@
-const { Select, Check, TooltipContainer, TooltipText } = VM.require(
+const { Select, Check } = VM.require(
   `/*__@replace:widgetPath__*/.Components.Select.styled`,
 );
 
@@ -26,7 +26,7 @@ const {
 
 const [open, setOpen] = useState(false);
 const selectOptions = defaultValue ? [defaultValue, ...options] : options;
-const isOpenDropdown = !!filterIsOpen ? filterIsOpen : open
+const isOpenDropdown = !!filterIsOpen ? filterIsOpen : open;
 
 const setTitle = () => {
   if (text) return text;
@@ -38,27 +38,13 @@ const setTitle = () => {
   }
 };
 
-const TooltipIcon = styled.i`
-  &:hover + ${TooltipText} {
-    visibility: visible;
-    opacity: 1;
-    white-space: pre-wrap;
-    color: #6B6C75;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 16px;
-    box-shadow: 50px 20px 50px 50px rgba(0, 0, 0, 0.05);
-  }
-`;
-
 const handleOpen = () => {
   if (onFilterClick) {
-    onFilterClick(id)
+    onFilterClick(id);
   } else {
     setOpen(!open);
   }
-}
+};
 
 return (
   <Select onClick={() => !multiple && handleOpen()}>
@@ -66,10 +52,13 @@ return (
       <div className="selected" onClick={handleOpen}>
         {setTitle()}
         {isTooltipVisible && (
-          <TooltipContainer>
-            <TooltipIcon className="bi bi-info-circle-fill"></TooltipIcon>
-            <TooltipText>{hintText}</TooltipText>
-          </TooltipContainer>
+          <Widget
+            src={`/*__@replace:widgetPath__*/.Components.Tooltip.index`}
+            props={{
+              content: hintText,
+              icon: <i className="bi bi-info-circle-fill" />,
+            }}
+          />
         )}
       </div>
       <div className="d-flex gap-2">

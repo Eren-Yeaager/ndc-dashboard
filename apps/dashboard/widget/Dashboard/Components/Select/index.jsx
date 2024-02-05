@@ -18,9 +18,15 @@ const {
   containerClass,
   text,
   isTooltipVisible,
+  hintText,
+  onFilterClick,
+  filterIsOpen,
+  id,
 } = props;
+
 const [open, setOpen] = useState(false);
 const selectOptions = defaultValue ? [defaultValue, ...options] : options;
+const isOpenDropdown = !!filterIsOpen ? filterIsOpen : open
 
 const setTitle = () => {
   if (text) return text;
@@ -36,7 +42,8 @@ const TooltipIcon = styled.i`
   &:hover + ${TooltipText} {
     visibility: visible;
     opacity: 1;
-    color: #6b6c75;
+    white-space: pre-wrap;
+    color: #6B6C75;
     font-size: 12px;
     font-style: normal;
     font-weight: 400;
@@ -45,7 +52,13 @@ const TooltipIcon = styled.i`
   }
 `;
 
-const handleOpen = () => setOpen(!open);
+const handleOpen = () => {
+  if (onFilterClick) {
+    onFilterClick(id)
+  } else {
+    setOpen(!open);
+  }
+}
 
 return (
   <Select onClick={() => !multiple && handleOpen()}>
@@ -55,7 +68,7 @@ return (
         {isTooltipVisible && (
           <TooltipContainer>
             <TooltipIcon className="bi bi-info-circle-fill"></TooltipIcon>
-            <TooltipText>Tooltip placeholder</TooltipText>
+            <TooltipText>{hintText}</TooltipText>
           </TooltipContainer>
         )}
       </div>
@@ -69,7 +82,7 @@ return (
         <i onClick={handleOpen} className="bi bi-chevron-down fs-5 mt-1" />
       </div>
     </div>
-    {open && (
+    {isOpenDropdown && (
       <ul>
         {selectOptions.map((option) => (
           <li onClick={() => onChange(option)}>

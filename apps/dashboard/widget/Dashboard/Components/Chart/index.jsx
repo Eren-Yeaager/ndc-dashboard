@@ -113,8 +113,15 @@ return (
         <div className="w-100 py-5 d-flex justify-content-center align-items-center">
           <Loading />
         </div>
-      ) : (
+      ) : chartData.datasets[0].data.length ? (
         <iframe iframeResizer srcDoc={code} message={{ data: chartData }} />
+      ) : (
+        <div
+          className="w-100 py-5 d-flex justify-content-center align-items-center"
+          style={{ fontSize: "60px" }}
+        >
+          n/a
+        </div>
       )}
     </Card>
   </div>

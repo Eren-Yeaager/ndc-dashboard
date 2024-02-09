@@ -31,6 +31,10 @@ const Container = styled.div`
   align-items: flex-start;
   padding-top: 1rem;
   -webkit-overflow-scrolling: touch;
+
+  @media screen and (max-width: 1341px) {
+    padding-bottom: 1rem;
+  }
 `;
 
 const Colored = styled.div`

@@ -149,6 +149,10 @@ const SelectContainer = styled.div`
   }
 `
 
+const capitalizeFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 return (
   <Container>
     <div className="section">
@@ -171,10 +175,10 @@ return (
           <Widget
             src={`/*__@replace:widgetPath__*/.Components.Select.index`}
             props={{
-              options: PERIODS,
+              options: PERIODS.map((v) => capitalizeFirstLetter(v)),
               isOpen: selectOpen,
               values: period,
-              onChange: setPeriod,
+              onChange: (v) => setPeriod(v.toLowerCase()),
               containerClass: "selected-container",
             }}
           />

@@ -40,7 +40,7 @@ return (
 
     <SubFilterItem>
       <div>
-        {values.length > 1
+        {values.length >= 1
           ? `${values.length} Selected`
           : defaultValue ?? values[0]}
       </div>

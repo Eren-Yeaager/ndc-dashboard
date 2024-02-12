@@ -1,9 +1,10 @@
-const { Card } = VM.require(
-  `/*__@replace:widgetPath__*/.Components.Chart.styled`,
-);
+const Card = styled.div`
+  background: ${(props) => (props.isWhiteBackground ? "#000000" : "#fffff")};
+  width: 100%;
+  text-align: center;
+`;
 
 const Loading = () => <Widget src="flashui.near/widget/Loading" />;
-if (!Card) return <Loading />;
 
 const chartData = props.chartData ?? {
   labels: props.data.labels.map(

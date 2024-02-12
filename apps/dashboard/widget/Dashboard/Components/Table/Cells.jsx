@@ -115,7 +115,7 @@ return (
             />
             <div className="position-relative">
               <Widget
-                src={`/*__@replace:widgetPath__*/.Components.Tooltip.index`}
+                src={`/*__@replace:widgetPath__*/.Components.Tooltip`}
                 props={{
                   content: (
                     <>
@@ -141,7 +141,7 @@ return (
             />
             <div className="position-relative">
               <Widget
-                src={`/*__@replace:widgetPath__*/.Components.Tooltip.index`}
+                src={`/*__@replace:widgetPath__*/.Components.Tooltip`}
                 props={{
                   content: (
                     <>

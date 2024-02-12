@@ -1,11 +1,32 @@
-const { ScrollableWrapper } = VM.require(
-  `/*__@replace:widgetPath__*/.Components.Table.styled`,
-);
+const ScrollableWrapper = styled.div`
+  width: 100%;
+  min-height: 15rem;
+  @media screen and (max-width: 1341px) {
+    overflow-y: hidden;
+    overflow-x: scroll;
+
+    ::-webkit-scrollbar {
+      height: 15px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #8799d2;
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+  }
+  -webkit-overflow-scrolling: touch;
+`;
 
 const { ndcDAOs, API } = props;
 const Loading = () => <Widget src="flashui.near/widget/Loading" />;
-
-if (!ScrollableWrapper) return <Loading />;
 
 const defaultDAOOption = "All DAOs";
 const CURRENCIES = {
@@ -29,7 +50,6 @@ const FILTER_OPENS = Object.keys(FILTER_IDS).map((item) => {
 
 const [dataSet, setDataSet] = useState({});
 const [loading, setLoading] = useState(false);
-
 const [allDAOs, setAllDAOs] = useState([]);
 const [allDapps, setAllDapps] = useState([]);
 const [selectedDAOs, setSelectedDAOs] = useState([]);
@@ -101,22 +121,23 @@ const sortByDAOName = (keys) =>
       return obj;
     }, {});
 
-    const filterDAO = (value) => {
-      let newSelection;
-    
-      if (value === defaultDAOOption) {
-        const all = [defaultDAOOption, ...ndcDAOs];
-        const isCurrentSelectionFull = selectedDAOs.length === all.length;
-        newSelection = isCurrentSelectionFull ? [] : all;
-      } else if (selectedDAOs.includes(value)) {
-        newSelection = selectedDAOs.filter(daoId => daoId !== value && daoId !== defaultDAOOption);
-      } else {
-        newSelection = [...selectedDAOs, value];
-      }
-    
-      setSelectedDAOs(newSelection);
-    };
-    
+const filterDAO = (value) => {
+  let newSelection;
+
+  if (value === defaultDAOOption) {
+    const all = [defaultDAOOption, ...ndcDAOs];
+    const isCurrentSelectionFull = selectedDAOs.length === all.length;
+    newSelection = isCurrentSelectionFull ? [] : all;
+  } else if (selectedDAOs.includes(value)) {
+    newSelection = selectedDAOs.filter(
+      (daoId) => daoId !== value && daoId !== defaultDAOOption,
+    );
+  } else {
+    newSelection = [...selectedDAOs, value];
+  }
+
+  setSelectedDAOs(newSelection);
+};
 
 const fetchDapps = () => {
   setLoading(true);
@@ -142,56 +163,58 @@ const fetchData = () => {
   const filtredDAOs = selectedDAOs.length ? selectedDAOs : ndcDAOs;
   let newDataSet = {};
 
-  const promises = filtredDAOs.filter(v => v !== defaultDAOOption).flatMap((daoId) => {
-    newDataSet[daoId] = {
-      balance: 0,
-      interactedAccounts: 0,
-      dappsUsed: 0,
-      retention: {
-        start: 0,
-        end: 0,
-      },
-    };
+  const promises = filtredDAOs
+    .filter((v) => v !== defaultDAOOption)
+    .flatMap((daoId) => {
+      newDataSet[daoId] = {
+        balance: 0,
+        interactedAccounts: 0,
+        dappsUsed: 0,
+        retention: {
+          start: 0,
+          end: 0,
+        },
+      };
 
-    return [
-      API.get_retentions(daoId).then((resp) => {
-        if (!resp.body) return;
+      return [
+        API.get_retentions(daoId).then((resp) => {
+          if (!resp.body) return;
 
-        const data = resp.body;
+          const data = resp.body;
 
-        if (data) {
-          const retentionIndex =
-            selectedRetention > data.length - 1
-              ? data.length - 1
-              : selectedRetention;
-          newDataSet[daoId].retention = {
-            start: parseInt(data[retentionIndex].unique_users_start),
-            end: parseInt(data[retentionIndex].unique_users_end),
-          };
-        }
-      }),
-      API.get_balance(daoId).then((resp) => {
-        if (!resp.body) return;
+          if (data) {
+            const retentionIndex =
+              selectedRetention > data.length - 1
+                ? data.length - 1
+                : selectedRetention;
+            newDataSet[daoId].retention = {
+              start: parseInt(data[retentionIndex].unique_users_start),
+              end: parseInt(data[retentionIndex].unique_users_end),
+            };
+          }
+        }),
+        API.get_balance(daoId).then((resp) => {
+          if (!resp.body) return;
 
-        const data = resp.body;
-        if (data)
-          newDataSet[daoId].balance =
-            data.find((d) => d.contract === CURRENCIES[selectedCurrency])
-              ?.amount ?? 0;
-      }),
-      API.get_contract_relations(daoId).then((resp) => {
-        if (!resp.body) return;
+          const data = resp.body;
+          if (data)
+            newDataSet[daoId].balance =
+              data.find((d) => d.contract === CURRENCIES[selectedCurrency])
+                ?.amount ?? 0;
+        }),
+        API.get_contract_relations(daoId).then((resp) => {
+          if (!resp.body) return;
 
-        const interactedAccounts = resp.body;
-        if (interactedAccounts) {
-          newDataSet[daoId].interactedAccounts = interactedAccounts.length;
-          newDataSet[daoId].dappsUsed = allDapps.filter((dapp) =>
-            interactedAccounts.includes(dapp),
-          ).length;
-        }
-      }),
-    ];
-  });
+          const interactedAccounts = resp.body;
+          if (interactedAccounts) {
+            newDataSet[daoId].interactedAccounts = interactedAccounts.length;
+            newDataSet[daoId].dappsUsed = allDapps.filter((dapp) =>
+              interactedAccounts.includes(dapp),
+            ).length;
+          }
+        }),
+      ];
+    });
 
   Promise.all(promises).then(() => {
     const orderedByDAOState = sortByDAOName(newDataSet);
@@ -214,7 +237,7 @@ return (
       {FILTERS.map((filter) => (
         <Widget
           key={filter.id}
-          src={`/*__@replace:widgetPath__*/.Components.Table.Filters.index`}
+          src={`/*__@replace:widgetPath__*/.Components.Table.Filters`}
           props={{ ...filter }}
         />
       ))}
@@ -223,7 +246,7 @@ return (
       <Loading />
     ) : (
       <Widget
-        src={`/*__@replace:widgetPath__*/.Components.Table.Cells.index`}
+        src={`/*__@replace:widgetPath__*/.Components.Table.Cells`}
         props={{ dataSet }}
       />
     )}

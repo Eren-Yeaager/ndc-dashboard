@@ -1,8 +1,19 @@
-const { SubFilterItem } = VM.require(
-  `/*__@replace:widgetPath__*/.Components.Table.Filters.styled`,
-);
-
-if (!SubFilterItem) return <Widget src="flashui.near/widget/Loading" />;
+const SubFilterItem = styled.div`
+  border-radius: 10px;
+  background: #a39acd;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 350;
+  width: 100%;
+  min-width: 270px;
+  width: 100%;
+  height: 50px;
+  text-align: center;
+`;
 
 const {
   text,
@@ -21,7 +32,7 @@ const {
 return (
   <div className="d-flex flex-column gap-1 w-100">
     <Widget
-      src={`/*__@replace:widgetPath__*/.Components.Select.index`}
+      src={`/*__@replace:widgetPath__*/.Components.Select`}
       props={{
         containerClass: "selected-container black",
         text,

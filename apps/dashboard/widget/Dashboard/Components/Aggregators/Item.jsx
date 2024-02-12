@@ -1,10 +1,13 @@
+const Circle = styled.div`
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: ${(p) => p.color};
+`;
+
 const { value, text, color, loading } = props;
-const { Circle } = VM.require(
-  `/*__@replace:widgetPath__*/.Components.MetricsDisplay.styled`,
-);
 
 const Loading = () => <Widget src="flashui.near/widget/Loading" />;
-if (!Circle) return <Loading />;
 
 const formatValue = (value) => {
   const val = value ? parseFloat(value) : null;

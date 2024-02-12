@@ -15,7 +15,7 @@ function Page() {
     default: {
       return (
         <Widget
-          src={`/*__@replace:widgetPath__*/.Pages.NotFound.index`}
+          src={`/*__@replace:widgetPath__*/.Pages.NotFound`}
           props={passProps}
         />
       );

@@ -1,10 +1,57 @@
-const { ndcDAOs } = VM.require(`/*__@replace:widgetPath__*/.Config`);
-const { Container, ChartContainer } = VM.require(
-  `/*__@replace:widgetPath__*/.Pages.styled`,
-);
+const Container = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 3rem 4.5rem;
 
-if (!ndcDAOs || !Container || !ChartContainer)
-  return <Widget src="flashui.near/widget/Loading" />;
+  @media screen and (max-width: 768px) {
+    padding: 3rem 2rem;
+  }
+
+  h3 {
+    font-size: 2rem;
+    font-weight: 400;
+  }
+
+  h4 {
+    font-size: 1.5rem;
+    font-weight: 300;
+  }
+
+  .select-dao {
+    width: 50%;
+    @media screen and (max-width: 768px) {
+      width: 100%;
+      min-width: 150px;
+    }
+  }
+  .select-period {
+    width: 150px;
+    @media screen and (max-width: 768px) {
+      width: 100%;
+    }
+  }
+`;
+
+const ChartContainer = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  gap: 3rem;
+
+  @media screen and (max-width: 1188px) {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+`;
+
+const { ndcDAOs } = VM.require(`/*__@replace:widgetPath__*/.Config`);
+
+if (!ndcDAOs) return <Widget src="flashui.near/widget/Loading" />;
 
 const PERIODS = ["daily", "weekly", "monthly"];
 const defaultDAOOption = "All DAOs";
@@ -121,7 +168,6 @@ dataState.uniqueActiveUsers
     dailyTotalUsers.data.push(element.unique_users);
   });
 
-
 const onSelectChange = (value) => {
   const isDefaultOption = value === defaultDAOOption;
 
@@ -129,29 +175,30 @@ const onSelectChange = (value) => {
     if (isDefaultOption) {
       const all = [...ndcDAOs, defaultDAOOption];
       if (selectedDAOs.length === all.length) {
-        return []
+        return [];
       }
       return all;
     } else if (selectedDAOs.includes(value)) {
-      return selectedDAOs.filter(dao => dao !== value && dao !== defaultDAOOption);
+      return selectedDAOs.filter(
+        (dao) => dao !== value && dao !== defaultDAOOption,
+      );
     } else {
-    
       return [...selectedDAOs, value];
     }
   };
 
   setSelectedDAOs(updateSelectedDAOs());
-}
+};
 
 const SelectContainer = styled.div`
-  @media screen and (max-width: 768px){
+  @media screen and (max-width: 768px) {
     flex-direction: column;
   }
-`
+`;
 
 const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
-}
+};
 
 return (
   <Container>
@@ -159,7 +206,7 @@ return (
       <SelectContainer className="d-flex w-100 gap-3 justify-content-between">
         <div className="select-dao">
           <Widget
-            src={`/*__@replace:widgetPath__*/.Components.Select.index`}
+            src={`/*__@replace:widgetPath__*/.Components.Select`}
             props={{
               options: ndcDAOs,
               defaultValue: defaultDAOOption,
@@ -173,7 +220,7 @@ return (
         </div>
         <div className="select-period">
           <Widget
-            src={`/*__@replace:widgetPath__*/.Components.Select.index`}
+            src={`/*__@replace:widgetPath__*/.Components.Select`}
             props={{
               options: PERIODS.map((v) => capitalizeFirstLetter(v)),
               isOpen: selectOpen,
@@ -186,7 +233,7 @@ return (
       </SelectContainer>
     </div>
     <Widget
-      src={`/*__@replace:widgetPath__*/.Components.MetricsDisplay.index`}
+      src={`/*__@replace:widgetPath__*/.Components.Aggregators`}
       props={{
         totalTx: dataState.totalTx,
         totalAccounts: dataState.totalAccounts,
@@ -196,7 +243,7 @@ return (
     />
     <ChartContainer>
       <Widget
-        src={`/*__@replace:widgetPath__*/.Components.Chart.index`}
+        src={`/*__@replace:widgetPath__*/.Components.Chart`}
         props={{
           title: "DAILY NUMBER OF TRANSACTIONS",
           data: dailyTotal,
@@ -204,7 +251,7 @@ return (
         }}
       />
       <Widget
-        src={`/*__@replace:widgetPath__*/.Components.Chart.index`}
+        src={`/*__@replace:widgetPath__*/.Components.Chart`}
         props={{
           title: "UNIQUE ACTIVE USERS",
           data: dailyTotalUsers,
@@ -214,7 +261,7 @@ return (
     </ChartContainer>
     <div className="section py-5 flex-column">
       <Widget
-        src={`/*__@replace:widgetPath__*/.Components.Table.index`}
+        src={`/*__@replace:widgetPath__*/.Components.Table`}
         props={{ ndcDAOs, API }}
       />
     </div>

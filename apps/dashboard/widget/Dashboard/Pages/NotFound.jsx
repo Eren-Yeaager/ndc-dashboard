@@ -1,11 +1,35 @@
+const Text = styled.div`
+  width: 640px;
+  color: #1e1d22;
+  text-align: center;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin: 50px 0;
+  @media screen and (max-width: 1188px) {
+    width: 70%;
+  }
+`;
+
+const Social = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 250px;
+  margin-bottom: 100px;
+`;
+
+const Logo = styled.img`
+  @media screen and (max-width: 1188px) {
+    width: 70%;
+  }
+`;
+
 const { assets, socialLinks } = VM.require(
   `/*__@replace:widgetPath__*/.Config`,
 );
-const { Text, Logo, Social } = VM.require(
-  `/*__@replace:widgetPath__*/.Pages.NotFound.styled`,
-);
 
-if (!Text || !Logo || !Social || !assets || !socialLinks)
+if (!assets || !socialLinks)
   return <Widget src="flashui.near/widget/Loading" />;
 
 return (

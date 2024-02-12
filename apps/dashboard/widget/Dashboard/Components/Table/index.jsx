@@ -142,7 +142,7 @@ const fetchData = () => {
   const filtredDAOs = selectedDAOs.length ? selectedDAOs : ndcDAOs;
   let newDataSet = {};
 
-  const promises = filtredDAOs.flatMap((daoId) => {
+  const promises = filtredDAOs.filter(v => v !== defaultDAOOption).flatMap((daoId) => {
     newDataSet[daoId] = {
       balance: 0,
       interactedAccounts: 0,
